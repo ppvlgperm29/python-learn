@@ -125,6 +125,17 @@
   color: var(--accent);
 }
 
+.nav-item__badge--progress {
+  background: var(--accent-bg);
+  color: var(--accent);
+}
+
+.nav-item__badge--done {
+  background: var(--easy-bg);
+  color: var(--success);
+  font-weight: 600;
+}
+
 /* ── Footer ───────────────────────────────────────────── */
 .sidebar__footer {
   padding: 12px 18px;

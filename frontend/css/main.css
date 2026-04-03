@@ -148,6 +148,81 @@ a:hover { text-decoration: underline; }
   text-decoration: underline;
 }
 
+/* ── Overall progress ──────────────────────────────────── */
+.overall-progress {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 28px;
+  padding: 14px 18px;
+  background: var(--surface-2);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+}
+
+.overall-progress__bar {
+  flex: 1;
+  height: 6px;
+  background: var(--surface-3);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.overall-progress__fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+.overall-progress__label {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+/* ── Topic card progress ────────────────────────────────── */
+.topic-card__progress {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.topic-card__progress-bar {
+  flex: 1;
+  height: 4px;
+  background: var(--surface-3);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.topic-card__progress-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+.topic-card__progress-fill--done {
+  background: var(--success);
+}
+
+.topic-card__progress-text {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+.topic-card__progress-text--done {
+  color: var(--success);
+  font-weight: 500;
+}
+
+.topic-card--done .topic-card__title {
+  color: var(--text);
+}
+
 /* ── Loading ───────────────────────────────────────────── */
 .loading {
   text-align: center;

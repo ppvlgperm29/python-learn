@@ -16,13 +16,34 @@ function markSolved(slug, taskId) {
 // ─── Sidebar ─────────────────────────────────────────────
 function renderSidebar(topics, activeSlug) {
   const nav = document.getElementById('sidebar-nav');
-  nav.innerHTML = topics.map((t, i) => `
-    <a class="nav-item${t.slug === activeSlug ? ' active' : ''}" href="/topic.html?slug=${t.slug}">
-      <span class="nav-item__num">${String(i + 1).padStart(2, '0')}</span>
-      <span class="nav-item__title">${t.title}</span>
-      <span class="nav-item__badge">${t.task_count}</span>
-    </a>
-  `).join('');
+  nav.innerHTML = topics.map((t, i) => {
+    const solved = getSolvedSet(t.slug).size;
+    const total = t.task_count;
+    const done = total > 0 && solved === total;
+    const badge = total === 0 ? '' : done ? '✓' : solved > 0 ? `${solved}/${total}` : `${total}`;
+    const badgeClass = done ? ' nav-item__badge--done' : solved > 0 ? ' nav-item__badge--progress' : '';
+    return `
+      <a class="nav-item${t.slug === activeSlug ? ' active' : ''}" href="/topic.html?slug=${t.slug}">
+        <span class="nav-item__num">${String(i + 1).padStart(2, '0')}</span>
+        <span class="nav-item__title">${t.title}</span>
+        ${badge ? `<span class="nav-item__badge${badgeClass}">${badge}</span>` : ''}
+      </a>`;
+  }).join('');
+}
+
+function refreshSidebarBadge(slug, topics) {
+  const solved = getSolvedSet(slug).size;
+  const topic = topics.find(t => t.slug === slug);
+  if (!topic) return;
+  const total = topic.task_count;
+  const done = total > 0 && solved === total;
+  const badge = done ? '✓' : solved > 0 ? `${solved}/${total}` : `${total}`;
+  const badgeClass = done ? ' nav-item__badge--done' : solved > 0 ? ' nav-item__badge--progress' : '';
+  const navItem = document.querySelector(`.nav-item[href="/topic.html?slug=${slug}"] .nav-item__badge`);
+  if (navItem) {
+    navItem.textContent = badge;
+    navItem.className = `nav-item__badge${badgeClass}`;
+  }
 }
 
 // ─── Theory sections ─────────────────────────────────────
@@ -128,8 +149,21 @@ function renderProgress(solved, total) {
     </div>`;
 }
 
+// ─── Prev / Next nav ─────────────────────────────────────
+function renderTopicNav(topics, slug) {
+  const idx = topics.findIndex(t => t.slug === slug);
+  const prev = idx > 0 ? topics[idx - 1] : null;
+  const next = idx < topics.length - 1 ? topics[idx + 1] : null;
+  if (!prev && !next) return '';
+  return `
+    <div class="topic-nav">
+      ${prev ? `<a class="topic-nav__btn topic-nav__btn--prev" href="/topic.html?slug=${prev.slug}">← ${escHtml(prev.title)}</a>` : '<span></span>'}
+      ${next ? `<a class="topic-nav__btn topic-nav__btn--next" href="/topic.html?slug=${next.slug}">${escHtml(next.title)} →</a>` : '<span></span>'}
+    </div>`;
+}
+
 // ─── Main render ─────────────────────────────────────────
-function renderTopic(topic) {
+function renderTopic(topic, topics) {
   const slug = topic.slug;
   const solved = getSolvedSet(slug);
 
@@ -157,6 +191,8 @@ function renderTopic(topic) {
       ${renderProgress(solved, topic.tasks.length)}
       ${tasksHtml}
     </div>` : ''}
+
+    ${renderTopicNav(topics, slug)}
   `;
 
   // Init CodeMirror
@@ -282,6 +318,7 @@ function updateProgress(slug) {
   const label = document.getElementById('progress-label');
   if (fill) fill.style.width = `${total ? (n / total * 100) : 0}%`;
   if (label) label.textContent = `${n} / ${total}`;
+  refreshSidebarBadge(slug, window._topics || []);
 }
 
 // ─── Copy code ───────────────────────────────────────────
@@ -317,8 +354,9 @@ async function init() {
 
   try {
     const [topics, topic] = await Promise.all([API.getTopics(), API.getTopic(slug)]);
+    window._topics = topics;
     renderSidebar(topics, slug);
-    renderTopic(topic);
+    renderTopic(topic, topics);
 
     topic.tasks.forEach(t => {
       const card = document.getElementById(`task-card-${t.id}`);
