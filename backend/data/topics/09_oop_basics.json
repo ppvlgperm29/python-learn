@@ -1,0 +1,126 @@
+{
+  "id": 9,
+  "slug": "oop-basics",
+  "title": "Классы и объекты",
+  "description": "Что такое объектно-ориентированное программирование, как создавать свои типы данных и работать с объектами",
+  "order": 9,
+  "sections": [
+    {
+      "type": "text",
+      "content": "До этого момента мы работали с готовыми типами данных: числами, строками, списками. Но Python позволяет создавать собственные типы — классы. Класс — это шаблон, по которому создаются объекты. Представьте чертёж дома: он описывает, как должен выглядеть дом, сколько комнат, где двери. По одному чертежу можно построить много домов — каждый будет отдельным объектом."
+    },
+
+    {
+      "type": "heading",
+      "content": "Создание класса"
+    },
+
+    {
+      "type": "code_example",
+      "title": "Простейший класс",
+      "code": "# Класс — это шаблон\nclass Dog:\n    def __init__(self, name, breed):\n        self.name = name    # атрибут объекта\n        self.breed = breed  # атрибут объекта\n\n# Создаём объекты по шаблону\ndog1 = Dog('Рекс', 'Овчарка')\ndog2 = Dog('Буся', 'Мопс')\n\n# Обращаемся к атрибутам\nprint(dog1.name)    # Рекс\nprint(dog1.breed)   # Овчарка\nprint(dog2.name)    # Буся\n\n# Каждый объект независим\ndog1.name = 'Рексик'\nprint(dog1.name)    # Рексик\nprint(dog2.name)    # Буся — не изменился",
+      "explanation": "class — ключевое слово для создания класса. __init__ — специальный метод, который вызывается автоматически при создании объекта. self — это сам объект, через него записываются и читаются его данные. Dog('Рекс', 'Овчарка') — создание объекта (экземпляра класса)."
+    },
+
+    {
+      "type": "note",
+      "content": "self — это просто имя первого параметра, по договорённости. Python передаёт туда сам объект автоматически. Когда пишете dog1.name — Python внутри делает Dog.name(dog1). self нужен, чтобы метод знал, с каким конкретно объектом он работает."
+    },
+
+    {
+      "type": "heading",
+      "content": "Методы — функции внутри класса"
+    },
+
+    {
+      "type": "code_example",
+      "title": "Добавляем методы",
+      "code": "class Dog:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n\n    def bark(self):\n        print(f'{self.name} говорит: Гав!')\n\n    def info(self):\n        print(f'Собака {self.name}, возраст: {self.age} лет')\n\n    def human_years(self):\n        return self.age * 7  # приблизительный перевод\n\n# Создаём объект и вызываем методы\ndog = Dog('Рекс', 3)\ndog.bark()          # Рекс говорит: Гав!\ndog.info()          # Собака Рекс, возраст: 3 лет\nprint(dog.human_years())  # 21",
+      "explanation": "Метод — это обычная функция, но она определена внутри класса и всегда получает первым аргументом self. Через self метод обращается к атрибутам объекта: self.name, self.age."
+    },
+
+    {
+      "type": "code_example",
+      "title": "Методы могут изменять объект",
+      "code": "class BankAccount:\n    def __init__(self, owner, balance=0):\n        self.owner = owner\n        self.balance = balance\n\n    def deposit(self, amount):\n        self.balance += amount\n        print(f'Пополнение {amount} руб. Баланс: {self.balance}')\n\n    def withdraw(self, amount):\n        if amount > self.balance:\n            print('Недостаточно средств')\n        else:\n            self.balance -= amount\n            print(f'Снятие {amount} руб. Баланс: {self.balance}')\n\n    def show(self):\n        print(f'Счёт {self.owner}: {self.balance} руб.')\n\nacc = BankAccount('Иван', 1000)\nacc.show()           # Счёт Иван: 1000 руб.\nacc.deposit(500)     # Пополнение 500 руб. Баланс: 1500\nacc.withdraw(200)    # Снятие 200 руб. Баланс: 1300\nacc.withdraw(2000)   # Недостаточно средств",
+      "explanation": "Методы могут читать и изменять атрибуты объекта через self. Это главная сила ООП — данные и операции над ними собраны в одном месте."
+    },
+
+    {
+      "type": "heading",
+      "content": "Атрибуты класса и атрибуты объекта"
+    },
+
+    {
+      "type": "code_example",
+      "title": "Разница между атрибутами класса и объекта",
+      "code": "class Cat:\n    # Атрибут класса — общий для всех кошек\n    species = 'Felis catus'\n    count = 0\n\n    def __init__(self, name):\n        self.name = name          # атрибут объекта — свой у каждого\n        Cat.count += 1            # считаем всех созданных кошек\n\ncat1 = Cat('Мурка')\ncat2 = Cat('Барсик')\ncat3 = Cat('Тигра')\n\nprint(Cat.species)    # Felis catus — через класс\nprint(cat1.species)   # Felis catus — через объект тоже работает\nprint(Cat.count)      # 3 — сколько кошек создали\n\nprint(cat1.name)   # Мурка\nprint(cat2.name)   # Барсик",
+      "explanation": "Атрибут класса (species, count) — один на всех, хранится в самом классе. Атрибут объекта (name) — у каждого свой, хранится в конкретном объекте. Если обратиться к атрибуту через объект, Python сначала ищет его у объекта, затем у класса."
+    },
+
+    {
+      "type": "hood",
+      "title": "Что такое объект внутри Python",
+      "content": "Когда вы создаёте объект — Python выделяет кусочек памяти и кладёт туда словарь с атрибутами. Например, dog1 = Dog('Рекс', 3) создаёт словарь {'name': 'Рекс', 'age': 3} и прикрепляет к нему ссылку на класс Dog. Когда вы пишете dog1.name, Python смотрит в этот словарь и достаёт значение. Когда вы вызываете dog1.bark(), Python находит функцию bark в классе и вызывает её, передавая dog1 как первый аргумент. Можно даже посмотреть на этот словарь напрямую через dog1.__dict__."
+    },
+
+    {
+      "type": "code_example",
+      "title": "__dict__ — загляните внутрь объекта",
+      "code": "class Person:\n    def __init__(self, name, age, city):\n        self.name = name\n        self.age = age\n        self.city = city\n\n    def greet(self):\n        return f'Привет, я {self.name} из {self.city}'\n\np = Person('Анна', 25, 'Москва')\n\n# __dict__ — словарь атрибутов объекта\nprint(p.__dict__)   # {'name': 'Анна', 'age': 25, 'city': 'Москва'}\n\n# __class__ — класс объекта\nprint(p.__class__)        # <class '__main__.Person'>\nprint(p.__class__.__name__)  # Person\n\n# Можно добавлять атрибуты динамически\np.email = 'anna@mail.ru'\nprint(p.__dict__)   # {'name': 'Анна', 'age': 25, 'city': 'Москва', 'email': 'anna@mail.ru'}\n\n# isinstance — проверка типа объекта\nprint(isinstance(p, Person))  # True\nprint(isinstance(p, str))     # False",
+      "explanation": "__dict__ показывает все атрибуты объекта как обычный словарь. isinstance() — правильный способ проверить, является ли объект экземпляром класса. type(p) тоже работает, но isinstance() учитывает наследование."
+    }
+  ],
+  "tasks": [
+    {
+      "id": "oop_basics_1",
+      "order": 1,
+      "difficulty": "easy",
+      "title": "Класс Rectangle",
+      "description": "Создайте класс Rectangle с атрибутами width и height (передаются в __init__). Добавьте метод area(), который возвращает площадь (width * height). Создайте объект Rectangle(4, 5) и выведите его площадь.",
+      "starter_code": "class Rectangle:\n    def __init__(self, width, height):\n        pass  # сохраните атрибуты\n\n    def area(self):\n        pass  # вернуть площадь\n\nr = Rectangle(4, 5)\nprint(r.area())\n",
+      "expected_output": "20\n",
+      "hint": "В __init__: self.width = width, self.height = height. В area(): return self.width * self.height"
+    },
+    {
+      "id": "oop_basics_2",
+      "order": 2,
+      "difficulty": "easy",
+      "title": "Класс Circle",
+      "description": "Создайте класс Circle с атрибутом radius. Добавьте метод perimeter(), возвращающий периметр (2 * 3.14159 * radius). Создайте Circle(5) и выведите периметр, округлённый до 2 знаков.",
+      "starter_code": "class Circle:\n    def __init__(self, radius):\n        pass\n\n    def perimeter(self):\n        pass\n\nc = Circle(5)\nprint(round(c.perimeter(), 2))\n",
+      "expected_output": "31.42\n",
+      "hint": "return 2 * 3.14159 * self.radius"
+    },
+    {
+      "id": "oop_basics_3",
+      "order": 3,
+      "difficulty": "medium",
+      "title": "Счётчик объектов",
+      "description": "Создайте класс Counter с атрибутом класса total = 0. Каждый раз при создании объекта Counter.total должен увеличиваться на 1. Создайте 3 объекта и выведите Counter.total.",
+      "starter_code": "class Counter:\n    total = 0\n\n    def __init__(self):\n        pass  # увеличьте Counter.total\n\nc1 = Counter()\nc2 = Counter()\nc3 = Counter()\nprint(Counter.total)\n",
+      "expected_output": "3\n",
+      "hint": "В __init__: Counter.total += 1"
+    },
+    {
+      "id": "oop_basics_4",
+      "order": 4,
+      "difficulty": "medium",
+      "title": "Класс Temperature",
+      "description": "Создайте класс Temperature с атрибутом celsius. Добавьте метод to_fahrenheit(), возвращающий температуру в Фаренгейтах по формуле: celsius * 9/5 + 32. Создайте Temperature(100) и выведите результат.",
+      "starter_code": "class Temperature:\n    def __init__(self, celsius):\n        pass\n\n    def to_fahrenheit(self):\n        pass\n\nt = Temperature(100)\nprint(t.to_fahrenheit())\n",
+      "expected_output": "212.0\n",
+      "hint": "return self.celsius * 9/5 + 32"
+    },
+    {
+      "id": "oop_basics_5",
+      "order": 5,
+      "difficulty": "hard",
+      "title": "Класс Stack",
+      "description": "Реализуйте класс Stack (стек — структура данных «последний пришёл — первый ушёл»). Методы: push(item) — добавить элемент, pop() — удалить и вернуть последний элемент, is_empty() — True если стек пуст, size() — количество элементов. Используйте список внутри.",
+      "starter_code": "class Stack:\n    def __init__(self):\n        self.items = []\n\n    def push(self, item):\n        pass\n\n    def pop(self):\n        pass\n\n    def is_empty(self):\n        pass\n\n    def size(self):\n        pass\n\ns = Stack()\nprint(s.is_empty())  # True\ns.push(1)\ns.push(2)\ns.push(3)\nprint(s.size())      # 3\nprint(s.pop())       # 3\nprint(s.pop())       # 2\nprint(s.size())      # 1\n",
+      "expected_output": "True\n3\n3\n2\n1\n",
+      "hint": "push: self.items.append(item). pop: return self.items.pop(). is_empty: return len(self.items) == 0"
+    }
+  ]
+}

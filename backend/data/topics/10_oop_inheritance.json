@@ -1,0 +1,121 @@
+{
+  "id": 10,
+  "slug": "oop-inheritance",
+  "title": "Наследование",
+  "description": "Как классы могут перенимать свойства других классов, избегать повторения кода и строить иерархии",
+  "order": 10,
+  "sections": [
+    {
+      "type": "text",
+      "content": "Наследование позволяет создавать новый класс на основе существующего. Новый класс получает все атрибуты и методы родителя и может добавить свои или изменить унаследованные. Это избавляет от дублирования кода: общее описывается один раз в родительском классе, а дочерние классы добавляют только то, что их отличает."
+    },
+
+    {
+      "type": "heading",
+      "content": "Базовое наследование"
+    },
+
+    {
+      "type": "code_example",
+      "title": "Родительский и дочерний класс",
+      "code": "# Родительский класс (базовый)\nclass Animal:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n\n    def eat(self):\n        print(f'{self.name} ест')\n\n    def sleep(self):\n        print(f'{self.name} спит')\n\n# Дочерний класс наследует всё от Animal\nclass Dog(Animal):\n    def bark(self):\n        print(f'{self.name} говорит: Гав!')\n\nclass Cat(Animal):\n    def meow(self):\n        print(f'{self.name} говорит: Мяу!')\n\ndog = Dog('Рекс', 3)\ndog.eat()    # Рекс ест — метод из Animal\ndog.sleep()  # Рекс спит — метод из Animal\ndog.bark()   # Рекс говорит: Гав! — свой метод\n\ncat = Cat('Мурка', 2)\ncat.meow()   # Мурка говорит: Мяу!",
+      "explanation": "class Dog(Animal): — Dog наследует от Animal. Теперь у Dog есть всё что есть у Animal плюс свои методы. Если метод не найден в Dog, Python ищет его в Animal — вот как работает наследование."
+    },
+
+    {
+      "type": "code_example",
+      "title": "super() — вызов родительского метода",
+      "code": "class Animal:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n\n    def info(self):\n        print(f'{self.name}, {self.age} лет')\n\nclass Dog(Animal):\n    def __init__(self, name, age, breed):\n        super().__init__(name, age)  # вызываем __init__ родителя\n        self.breed = breed           # добавляем свой атрибут\n\n    def info(self):\n        super().info()               # вызываем info() родителя\n        print(f'Порода: {self.breed}')  # и добавляем своё\n\ndog = Dog('Рекс', 3, 'Овчарка')\ndog.info()\n# Рекс, 3 лет\n# Порода: Овчарка",
+      "explanation": "super() — это способ обратиться к родительскому классу. super().__init__() вызывает __init__ родителя — так не нужно повторять код инициализации. super().info() вызывает родительский info(), а мы добавляем к нему своё."
+    },
+
+    {
+      "type": "heading",
+      "content": "Переопределение методов"
+    },
+
+    {
+      "type": "code_example",
+      "title": "Дочерний класс меняет поведение",
+      "code": "class Shape:\n    def area(self):\n        return 0\n\n    def describe(self):\n        print(f'Площадь фигуры: {self.area()}')\n\nclass Rectangle(Shape):\n    def __init__(self, width, height):\n        self.width = width\n        self.height = height\n\n    def area(self):           # переопределяем метод родителя\n        return self.width * self.height\n\nclass Circle(Shape):\n    def __init__(self, radius):\n        self.radius = radius\n\n    def area(self):           # своя реализация\n        return 3.14159 * self.radius ** 2\n\nr = Rectangle(4, 5)\nc = Circle(3)\n\nr.describe()   # Площадь фигуры: 20\nc.describe()   # Площадь фигуры: 28.27...\n\n# describe() один и тот же, но area() у каждого своя!\nfor shape in [r, c]:\n    print(shape.area())",
+      "explanation": "Переопределение (override) — дочерний класс пишет свою версию метода. Когда вызывается shape.area(), Python смотрит сначала в класс объекта (Rectangle или Circle), а не в родительский Shape. Это называется полиморфизм: один и тот же вызов работает по-разному для разных объектов."
+    },
+
+    {
+      "type": "code_example",
+      "title": "isinstance() и issubclass()",
+      "code": "class Animal:\n    pass\n\nclass Dog(Animal):\n    pass\n\nclass Cat(Animal):\n    pass\n\ndog = Dog()\ncat = Cat()\n\n# isinstance — является ли объект экземпляром класса?\nprint(isinstance(dog, Dog))     # True\nprint(isinstance(dog, Animal))  # True — Dog наследует от Animal!\nprint(isinstance(dog, Cat))     # False\n\n# issubclass — является ли класс подклассом другого?\nprint(issubclass(Dog, Animal))  # True\nprint(issubclass(Cat, Animal))  # True\nprint(issubclass(Dog, Cat))     # False\n\n# Каждый класс наследует от object (базового для всех)\nprint(isinstance(dog, object))    # True\nprint(issubclass(Dog, object))    # True",
+      "explanation": "isinstance(dog, Animal) возвращает True, потому что Dog наследует от Animal. Это очень важно: проверка учитывает всю цепочку наследования. Используйте isinstance() вместо type() == — это более гибко и правильно."
+    },
+
+    {
+      "type": "note",
+      "content": "Наследование решает задачу повторного использования кода. Правило: используйте наследование когда дочерний класс является разновидностью родительского (Dog — это Animal). Не используйте наследование просто чтобы позаимствовать пару методов — в таких случаях лучше создать отдельный класс и хранить объект как атрибут."
+    },
+
+    {
+      "type": "hood",
+      "title": "Как Python ищет метод — цепочка классов",
+      "content": "Когда вы вызываете dog.eat(), Python не знает заранее, где находится этот метод. Он ищет по цепочке: сначала смотрит в класс Dog — есть ли там eat? Если нет — идёт в родительский класс Animal и ищет там. Если нет и там — идёт выше, к встроенному классу object, от которого наследуют все классы Python. Если метод не найден нигде — получаете AttributeError. Эта цепочка называется MRO (Method Resolution Order). Посмотреть её можно через Dog.__mro__ — Python покажет все классы в порядке поиска."
+    },
+
+    {
+      "type": "code_example",
+      "title": "Цепочка наследования",
+      "code": "class Vehicle:\n    def __init__(self, brand, speed):\n        self.brand = brand\n        self.speed = speed\n\n    def move(self):\n        print(f'{self.brand} едет со скоростью {self.speed} км/ч')\n\nclass Car(Vehicle):\n    def __init__(self, brand, speed, doors):\n        super().__init__(brand, speed)\n        self.doors = doors\n\n    def honk(self):\n        print(f'{self.brand}: Бип-бип!')\n\nclass ElectricCar(Car):\n    def __init__(self, brand, speed, doors, battery):\n        super().__init__(brand, speed, doors)\n        self.battery = battery\n\n    def charge(self):\n        print(f'{self.brand} заряжается. Батарея: {self.battery} кВт·ч')\n\ntesla = ElectricCar('Tesla', 250, 4, 100)\ntesla.move()    # из Vehicle\ntesla.honk()    # из Car\ntesla.charge()  # свой метод\n\nprint(ElectricCar.__mro__)  # порядок поиска методов",
+      "explanation": "ElectricCar наследует от Car, Car — от Vehicle. Цепочка: ElectricCar → Car → Vehicle → object. super() в каждом классе передаёт инициализацию вверх по цепочке, пока все нужные атрибуты не будут установлены."
+    }
+  ],
+  "tasks": [
+    {
+      "id": "oop_inh_1",
+      "order": 1,
+      "difficulty": "easy",
+      "title": "Наследование транспорта",
+      "description": "Создайте класс Vehicle с атрибутом brand и методом move(), который выводит '[brand] движется'. Создайте класс Car(Vehicle) с дополнительным методом honk(), который выводит '[brand]: Бип!'. Создайте Car('Toyota') и вызовите оба метода.",
+      "starter_code": "class Vehicle:\n    def __init__(self, brand):\n        self.brand = brand\n\n    def move(self):\n        pass\n\nclass Car(Vehicle):\n    def honk(self):\n        pass\n\nc = Car('Toyota')\nc.move()\nc.honk()\n",
+      "expected_output": "Toyota движется\nToyota: Бип!\n",
+      "hint": "Car наследует от Vehicle, поэтому self.brand доступен в honk()"
+    },
+    {
+      "id": "oop_inh_2",
+      "order": 2,
+      "difficulty": "easy",
+      "title": "super() в __init__",
+      "description": "Создайте класс Person с атрибутами name и age. Создайте класс Employee(Person), который добавляет атрибут position. Используйте super().__init__() в Employee. Создайте Employee('Иван', 30, 'Разработчик') и выведите все три атрибута.",
+      "starter_code": "class Person:\n    def __init__(self, name, age):\n        self.name = name\n        self.age = age\n\nclass Employee(Person):\n    def __init__(self, name, age, position):\n        pass  # вызовите super().__init__ и добавьте position\n\ne = Employee('Иван', 30, 'Разработчик')\nprint(e.name)\nprint(e.age)\nprint(e.position)\n",
+      "expected_output": "Иван\n30\nРазработчик\n",
+      "hint": "super().__init__(name, age) — передайте name и age родителю, затем self.position = position"
+    },
+    {
+      "id": "oop_inh_3",
+      "order": 3,
+      "difficulty": "medium",
+      "title": "Переопределение метода",
+      "description": "Создайте класс Animal с методом speak(), который выводит 'Животное издаёт звук'. Создайте Dog(Animal) и Cat(Animal), которые переопределяют speak(): собака выводит 'Гав!', кошка — 'Мяу!'. Создайте по одному объекту каждого и вызовите speak().",
+      "starter_code": "class Animal:\n    def speak(self):\n        print('Животное издаёт звук')\n\nclass Dog(Animal):\n    def speak(self):\n        pass\n\nclass Cat(Animal):\n    def speak(self):\n        pass\n\nDog().speak()\nCat().speak()\n",
+      "expected_output": "Гав!\nМяу!\n",
+      "hint": "Просто напишите свою версию speak() в каждом дочернем классе"
+    },
+    {
+      "id": "oop_inh_4",
+      "order": 4,
+      "difficulty": "medium",
+      "title": "isinstance() проверка",
+      "description": "Создайте классы Shape, Rectangle(Shape), Circle(Shape). Создайте по одному объекту каждого. Выведите результаты: isinstance(r, Rectangle), isinstance(r, Shape), isinstance(c, Rectangle) — каждый на отдельной строке.",
+      "starter_code": "class Shape:\n    pass\n\nclass Rectangle(Shape):\n    pass\n\nclass Circle(Shape):\n    pass\n\nr = Rectangle()\nc = Circle()\n\n# Выведите три проверки isinstance\n",
+      "expected_output": "True\nTrue\nFalse\n",
+      "hint": "isinstance(r, Shape) вернёт True, потому что Rectangle наследует от Shape"
+    },
+    {
+      "id": "oop_inh_5",
+      "order": 5,
+      "difficulty": "hard",
+      "title": "Иерархия фигур",
+      "description": "Создайте класс Shape с методом area() (возвращает 0) и describe() (выводит 'Фигура: [название класса], площадь: [area()]'). Создайте Rectangle(Shape) с width и height, Circle(Shape) с radius. Оба переопределяют area(). Создайте Rectangle(3,4) и Circle(5), вызовите describe() у каждого.",
+      "starter_code": "class Shape:\n    def area(self):\n        return 0\n\n    def describe(self):\n        name = self.__class__.__name__\n        print(f'Фигура: {name}, площадь: {self.area():.2f}')\n\nclass Rectangle(Shape):\n    def __init__(self, width, height):\n        pass\n\n    def area(self):\n        pass\n\nclass Circle(Shape):\n    def __init__(self, radius):\n        pass\n\n    def area(self):\n        pass\n\nRectangle(3, 4).describe()\nCircle(5).describe()\n",
+      "expected_output": "Фигура: Rectangle, площадь: 12.00\nФигура: Circle, площадь: 78.54\n",
+      "hint": "Rectangle.area(): return self.width * self.height. Circle.area(): return 3.14159 * self.radius ** 2"
+    }
+  ]
+}

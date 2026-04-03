@@ -1,0 +1,131 @@
+{
+  "id": 11,
+  "slug": "oop-magic",
+  "title": "Магические методы",
+  "description": "Специальные методы Python, которые позволяют объектам работать со встроенными операторами и функциями",
+  "order": 11,
+  "sections": [
+    {
+      "type": "text",
+      "content": "Магические методы — это специальные методы с двойными подчёркиваниями в начале и конце имени: __init__, __str__, __len__ и другие. Python вызывает их автоматически в определённых ситуациях. Например, когда вы пишете print(obj), Python вызывает obj.__str__(). Когда len(obj) — вызывает obj.__len__(). Благодаря этому ваши собственные классы могут вести себя как встроенные типы Python."
+    },
+
+    {
+      "type": "heading",
+      "content": "__str__ и __repr__ — представление объекта"
+    },
+
+    {
+      "type": "code_example",
+      "title": "Как объект выглядит при выводе",
+      "code": "class Point:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n\np = Point(3, 4)\nprint(p)   # <__main__.Point object at 0x...> — некрасиво!\n\n# Добавляем __str__ — для print() и str()\nclass Point:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n\n    def __str__(self):\n        return f'Point({self.x}, {self.y})'\n\n    def __repr__(self):\n        return f'Point(x={self.x}, y={self.y})'\n\np = Point(3, 4)\nprint(p)        # Point(3, 4) — использует __str__\nprint(str(p))   # Point(3, 4)\nprint(repr(p))  # Point(x=3, y=4) — используется в отладке",
+      "explanation": "__str__ вызывается при print() и str() — должен возвращать понятную строку для пользователя. __repr__ вызывается при repr() и в интерактивной консоли — обычно показывает, как воссоздать объект. Если __str__ не определён, Python использует __repr__."
+    },
+
+    {
+      "type": "heading",
+      "content": "__len__, __bool__ — работа с функциями"
+    },
+
+    {
+      "type": "code_example",
+      "title": "len() и bool() для своих классов",
+      "code": "class Playlist:\n    def __init__(self, name):\n        self.name = name\n        self.songs = []\n\n    def add(self, song):\n        self.songs.append(song)\n\n    def __len__(self):\n        return len(self.songs)\n\n    def __bool__(self):\n        return len(self.songs) > 0\n\n    def __str__(self):\n        return f'Плейлист \"{self.name}\" ({len(self)} треков)'\n\npl = Playlist('Любимые')\nprint(len(pl))    # 0\nprint(bool(pl))   # False — плейлист пустой\n\npl.add('Song 1')\npl.add('Song 2')\npl.add('Song 3')\n\nprint(len(pl))    # 3\nprint(bool(pl))   # True\nprint(pl)         # Плейлист \"Любимые\" (3 треков)\n\nif pl:\n    print('Плейлист не пустой')  # выведется это",
+      "explanation": "__len__ позволяет использовать len() на объекте. __bool__ определяет поведение в условиях if obj:. Если __bool__ не определён, Python использует __len__: объект считается True если len > 0."
+    },
+
+    {
+      "type": "heading",
+      "content": "__eq__, __lt__ — сравнение объектов"
+    },
+
+    {
+      "type": "code_example",
+      "title": "Операторы сравнения",
+      "code": "class Temperature:\n    def __init__(self, celsius):\n        self.celsius = celsius\n\n    def __str__(self):\n        return f'{self.celsius}°C'\n\n    def __eq__(self, other):   # ==\n        return self.celsius == other.celsius\n\n    def __lt__(self, other):   # <\n        return self.celsius < other.celsius\n\n    def __le__(self, other):   # <=\n        return self.celsius <= other.celsius\n\nt1 = Temperature(20)\nt2 = Temperature(35)\nt3 = Temperature(20)\n\nprint(t1 == t3)   # True\nprint(t1 == t2)   # False\nprint(t1 < t2)    # True\nprint(t2 < t1)    # False\nprint(t1 <= t3)   # True\n\n# Теперь можно сортировать!\ntemps = [Temperature(30), Temperature(15), Temperature(25)]\ntemps.sort()   # работает благодаря __lt__\nfor t in temps:\n    print(t)   # 15°C  25°C  30°C",
+      "explanation": "Без __eq__ Python сравнивает объекты по адресу в памяти (два разных объекта всегда не равны). Определив __eq__ и __lt__, вы объясняете Python как сравнивать ваши объекты. Для сортировки достаточно одного __lt__."
+    },
+
+    {
+      "type": "heading",
+      "content": "__add__, __mul__ — арифметика с объектами"
+    },
+
+    {
+      "type": "code_example",
+      "title": "Оператор + для своего класса",
+      "code": "class Vector:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n\n    def __str__(self):\n        return f'Vector({self.x}, {self.y})'\n\n    def __add__(self, other):   # v1 + v2\n        return Vector(self.x + other.x, self.y + other.y)\n\n    def __mul__(self, n):       # v * число\n        return Vector(self.x * n, self.y * n)\n\n    def __len__(self):\n        # длина вектора (целая часть)\n        return int((self.x ** 2 + self.y ** 2) ** 0.5)\n\nv1 = Vector(1, 2)\nv2 = Vector(3, 4)\n\nprint(v1 + v2)   # Vector(4, 6)\nprint(v1 * 3)    # Vector(3, 6)\nprint(len(v2))   # 5  (3-4-5 прямоугольный треугольник)",
+      "explanation": "__add__ вызывается при v1 + v2. __mul__ — при v1 * 3. Возвращайте новый объект, не меняйте self. Таким же образом работают __sub__ (-), __truediv__ (/), __mod__ (%) и другие."
+    },
+
+    {
+      "type": "note",
+      "content": "Не нужно определять все магические методы сразу. Начните с __init__ и __str__ — они нужны почти всегда. Остальные добавляйте по мере необходимости: __len__ если у объекта есть «длина», __eq__ если нужно сравнивать объекты, __add__ если нужна операция сложения."
+    },
+
+    {
+      "type": "hood",
+      "title": "Как Python находит магические методы",
+      "content": "Когда вы пишете print(obj), Python не вызывает obj.__str__() напрямую. Он ищет __str__ в классе объекта, а не в самом объекте. Это сделано специально: магические методы нельзя случайно «сломать», добавив атрибут с таким именем. Поэтому если написать obj.__str__ = lambda: 'test', print(obj) всё равно будет использовать метод класса. Это небольшая техническая деталь, но она объясняет, почему магические методы надёжны и предсказуемы."
+    },
+
+    {
+      "type": "code_example",
+      "title": "Практический пример — класс Money",
+      "code": "class Money:\n    def __init__(self, amount, currency='RUB'):\n        self.amount = amount\n        self.currency = currency\n\n    def __str__(self):\n        return f'{self.amount:.2f} {self.currency}'\n\n    def __repr__(self):\n        return f'Money({self.amount}, \"{self.currency}\")'\n\n    def __add__(self, other):\n        if self.currency != other.currency:\n            raise ValueError('Нельзя складывать разные валюты')\n        return Money(self.amount + other.amount, self.currency)\n\n    def __eq__(self, other):\n        return self.amount == other.amount and self.currency == other.currency\n\n    def __lt__(self, other):\n        return self.amount < other.amount\n\nprice = Money(100)\ntax = Money(18)\ntotal = price + tax\n\nprint(price)         # 100.00 RUB\nprint(total)         # 118.00 RUB\nprint(price < total) # True\nprint(repr(price))   # Money(100, \"RUB\")",
+      "explanation": "Класс Money ведёт себя как встроенный тип: его можно складывать, сравнивать, выводить в удобном виде. Это и есть цель магических методов — сделать ваши классы такими же удобными в использовании, как int или str."
+    }
+  ],
+  "tasks": [
+    {
+      "id": "oop_magic_1",
+      "order": 1,
+      "difficulty": "easy",
+      "title": "Читаемый вывод",
+      "description": "Создайте класс Book с атрибутами title и author. Добавьте __str__, который возвращает строку в формате: '\"[title]\" — [author]'. Создайте Book('Мастер и Маргарита', 'Булгаков') и выведите через print().",
+      "starter_code": "class Book:\n    def __init__(self, title, author):\n        self.title = title\n        self.author = author\n\n    def __str__(self):\n        pass\n\nb = Book('Мастер и Маргарита', 'Булгаков')\nprint(b)\n",
+      "expected_output": "\"Мастер и Маргарита\" — Булгаков\n",
+      "hint": "return f'\"{{self.title}}\" — {{self.author}}'"
+    },
+    {
+      "id": "oop_magic_2",
+      "order": 2,
+      "difficulty": "easy",
+      "title": "__len__ для своего класса",
+      "description": "Создайте класс Sentence с атрибутом text. Добавьте __len__, который возвращает количество слов в предложении. Создайте Sentence('Python очень классный язык') и выведите len() от него.",
+      "starter_code": "class Sentence:\n    def __init__(self, text):\n        self.text = text\n\n    def __len__(self):\n        pass\n\ns = Sentence('Python очень классный язык')\nprint(len(s))\n",
+      "expected_output": "4\n",
+      "hint": "Используйте len(self.text.split())"
+    },
+    {
+      "id": "oop_magic_3",
+      "order": 3,
+      "difficulty": "medium",
+      "title": "Сравнение объектов",
+      "description": "Создайте класс Student с атрибутами name и grade (оценка). Добавьте __str__ (формат: '[name]: [grade]') и __gt__ (сравнение по grade). Создайте двух студентов с оценками 85 и 92, выведите каждого и проверьте кто лучше через >.",
+      "starter_code": "class Student:\n    def __init__(self, name, grade):\n        self.name = name\n        self.grade = grade\n\n    def __str__(self):\n        pass\n\n    def __gt__(self, other):\n        pass\n\ns1 = Student('Иван', 85)\ns2 = Student('Мария', 92)\nprint(s1)\nprint(s2)\nprint(s2 > s1)\n",
+      "expected_output": "Иван: 85\nМария: 92\nTrue\n",
+      "hint": "__str__: f'{self.name}: {self.grade}'. __gt__: return self.grade > other.grade"
+    },
+    {
+      "id": "oop_magic_4",
+      "order": 4,
+      "difficulty": "medium",
+      "title": "Сложение объектов",
+      "description": "Создайте класс Vector2D с атрибутами x и y. Добавьте __str__ (формат: '([x], [y])') и __add__ (сложение двух векторов — создаёт новый Vector2D). Создайте Vector2D(1, 2) и Vector2D(3, 4), сложите их и выведите результат.",
+      "starter_code": "class Vector2D:\n    def __init__(self, x, y):\n        self.x = x\n        self.y = y\n\n    def __str__(self):\n        pass\n\n    def __add__(self, other):\n        pass\n\nv1 = Vector2D(1, 2)\nv2 = Vector2D(3, 4)\nprint(v1 + v2)\n",
+      "expected_output": "(4, 6)\n",
+      "hint": "__add__: return Vector2D(self.x + other.x, self.y + other.y)"
+    },
+    {
+      "id": "oop_magic_5",
+      "order": 5,
+      "difficulty": "hard",
+      "title": "Полный класс с магическими методами",
+      "description": "Создайте класс Fraction (дробь) с атрибутами numerator (числитель) и denominator (знаменатель). Добавьте: __str__ (формат: 'числитель/знаменатель'), __add__ (сложение дробей: a/b + c/d = (a*d + c*b) / (b*d)), __eq__ (равенство: a/b == c/d если a*d == c*b). Протестируйте.",
+      "starter_code": "class Fraction:\n    def __init__(self, numerator, denominator):\n        self.numerator = numerator\n        self.denominator = denominator\n\n    def __str__(self):\n        pass\n\n    def __add__(self, other):\n        pass\n\n    def __eq__(self, other):\n        pass\n\nf1 = Fraction(1, 2)\nf2 = Fraction(1, 3)\nprint(f1)\nprint(f1 + f2)\nprint(Fraction(1, 2) == Fraction(2, 4))\n",
+      "expected_output": "1/2\n5/6\nTrue\n",
+      "hint": "__add__: new_num = self.numerator * other.denominator + other.numerator * self.denominator, new_den = self.denominator * other.denominator. __eq__: self.numerator * other.denominator == other.numerator * self.denominator"
+    }
+  ]
+}
