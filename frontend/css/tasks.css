@@ -149,6 +149,20 @@
   padding: 16px 20px 20px;
 }
 
+/* ── Responsive ──────────────────────────────────────── */
+@media (max-width: 600px) {
+  .tasks-section { margin-top: 44px; }
+
+  .task-card__header { padding: 12px 14px; gap: 8px; }
+  .task-card__editor-wrap { padding: 12px 14px 16px; }
+  .task-card__desc { padding: 12px 14px; }
+
+  .editor-toolbar { gap: 6px; }
+  .btn { padding: 6px 12px; font-size: 0.8rem; }
+
+  .progress-wrap { padding: 10px 14px; }
+}
+
 /* ── CodeMirror ───────────────────────────────────────── */
 .CodeMirror {
   height: auto;

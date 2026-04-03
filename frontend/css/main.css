@@ -242,3 +242,27 @@ a:hover { text-decoration: underline; }
 }
 
 @keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Responsive ───────────────────────────────────────── */
+@media (max-width: 900px) {
+  .main-content {
+    margin-left: 0;
+    padding: 72px 24px 64px;
+  }
+}
+
+@media (max-width: 600px) {
+  .main-content {
+    padding: 68px 16px 56px;
+  }
+
+  .page-title { font-size: 1.5rem; }
+  .page-subtitle { font-size: 0.9rem; }
+
+  .topic-card { gap: 12px; padding: 18px 0; }
+  .topic-card__number { width: 28px; height: 28px; font-size: 0.7rem; }
+  .topic-card__title { font-size: 1rem; }
+  .topic-card__desc { font-size: 0.85rem; }
+
+  .overall-progress { flex-direction: column; align-items: flex-start; gap: 8px; }
+}
