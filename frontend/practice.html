@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Практика — Python Learn</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/eclipse.min.css">
+
+  <link rel="stylesheet" href="/css/variables.css?v=2">
+  <link rel="stylesheet" href="/css/animations.css?v=2">
+  <link rel="stylesheet" href="/css/main.css?v=2">
+  <link rel="stylesheet" href="/css/sidebar.css?v=2">
+  <link rel="stylesheet" href="/css/tasks.css?v=2">
+  <link rel="stylesheet" href="/css/practice.css?v=2">
+</head>
+<body>
+  <div class="mobile-header">
+    <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Меню">
+      <span></span><span></span><span></span>
+    </button>
+    <a href="/" class="mobile-header__logo">
+      <span class="sidebar__logo-icon">PY</span>
+      Python Learn
+    </a>
+  </div>
+  <div class="sidebar-overlay" onclick="closeSidebar()"></div>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <a href="/" class="sidebar__logo">
+        <div class="sidebar__logo-text">
+          <span class="sidebar__logo-icon">PY</span>
+          Python Learn
+        </div>
+        <div class="sidebar__logo-sub">Интерактивный курс</div>
+      </a>
+      <nav class="sidebar__nav">
+        <a class="nav-item nav-item--practice active" href="/practice.html">
+          <span class="nav-item__num">⚡</span>
+          <span class="nav-item__title">Практика</span>
+          <span class="nav-item__badge nav-item__badge--progress" id="practice-nav-badge"></span>
+        </a>
+        <div class="sidebar__section-label">Темы</div>
+        <div id="sidebar-nav"></div>
+      </nav>
+      <div class="sidebar__footer" id="sidebar-footer">12 тем · для начинающих</div>
+    </aside>
+
+    <main class="main-content main-content--practice">
+
+      <!-- ── List View ── -->
+      <div id="view-list" class="practice-list">
+        <div class="practice-list__header">
+          <h1 class="practice-list__title">Задачи</h1>
+          <p class="practice-list__sub">Практикуйтесь в решении задач на Python разной сложности</p>
+          <div class="practice-filters">
+            <button class="filter-btn active" data-filter="all">Все</button>
+            <button class="filter-btn" data-filter="easy">Лёгкие</button>
+            <button class="filter-btn" data-filter="medium">Средние</button>
+            <button class="filter-btn" data-filter="hard">Сложные</button>
+          </div>
+        </div>
+
+        <div class="practice-stats">
+          <div class="practice-stats__bar">
+            <div class="practice-stats__fill" id="stats-fill" style="width:0%"></div>
+          </div>
+          <span class="practice-stats__label" id="stats-label">Загрузка...</span>
+        </div>
+
+        <div id="challenge-list" class="challenge-table">
+          <div class="loading" style="padding:40px 20px">
+            <div class="loading-spinner"></div>
+            <div>Загрузка задач...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Detail View ── -->
+      <div id="view-detail" class="practice-detail" style="display:none">
+        <div class="practice-topbar">
+          <button class="practice-topbar__back" onclick="showList()">← Задачи</button>
+          <span class="practice-topbar__title" id="detail-title"></span>
+          <span class="task-card__badge" id="detail-badge"></span>
+        </div>
+        <div class="practice-split">
+          <div class="practice-split__desc" id="prob-desc-panel"></div>
+          <div class="practice-split__editor-pane">
+            <div class="editor-pane__toolbar">
+              <button class="btn btn-run" id="btn-run">▶ Запустить</button>
+              <button class="btn btn-check" id="btn-check">✓ Проверить</button>
+              <button class="btn btn-hint" id="btn-hint">? Подсказка</button>
+              <button class="btn btn-reset" id="btn-reset">↺ Сбросить</button>
+            </div>
+            <div class="editor-pane__body">
+              <div id="cm-container"></div>
+              <div class="hint-box" id="hint-box"></div>
+              <div class="prob-solved-banner" id="solved-banner">✓ Задача решена! Все тесты прошли.</div>
+              <div class="output-panel" id="output-panel" style="display:none">
+                <div class="output-panel__header">
+                  <span class="output-panel__label">Вывод</span>
+                  <span class="output-panel__status" id="output-status"></span>
+                </div>
+                <div class="output-panel__body" id="output-body"></div>
+              </div>
+              <div class="test-results" id="test-results" style="display:none">
+                <div class="test-results__header">
+                  <span class="test-results__label">Тест-кейсы</span>
+                  <span class="test-results__summary" id="test-summary"></span>
+                </div>
+                <div class="test-results__list" id="test-list"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
+
+  <script src="/js/api.js?v=2"></script>
+  <script src="/js/pyodide-runner.js?v=2"></script>
+  <script src="/js/practice.js?v=2"></script>
+  <script>
+    function toggleSidebar() {
+      document.querySelector('.sidebar').classList.toggle('open');
+      document.querySelector('.sidebar-overlay').classList.toggle('active');
+    }
+    function closeSidebar() {
+      document.querySelector('.sidebar').classList.remove('open');
+      document.querySelector('.sidebar-overlay').classList.remove('active');
+    }
+  </script>
+</body>
+</html>

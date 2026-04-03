@@ -1,0 +1,363 @@
+[
+  {
+    "id": "sum_two",
+    "order": 1,
+    "difficulty": "easy",
+    "category": "Математика",
+    "title": "Сумма двух чисел",
+    "description": "Напишите функцию `solution(a, b)`, которая возвращает сумму двух чисел.\n\nПример:\n```\nsolution(2, 3)    →  5\nsolution(-1, 7)   →  6\n```",
+    "starter_code": "def solution(a, b):\n    pass",
+    "tests": [
+      {"args": [2, 3], "expected": 5, "label": "solution(2, 3)"},
+      {"args": [-1, 7], "expected": 6, "label": "solution(-1, 7)"},
+      {"args": [0, 0], "expected": 0, "label": "solution(0, 0)"},
+      {"args": [100, -50], "expected": 50, "label": "solution(100, -50)"}
+    ],
+    "hint": "Используйте оператор + и верните результат через return."
+  },
+  {
+    "id": "is_even",
+    "order": 2,
+    "difficulty": "easy",
+    "category": "Математика",
+    "title": "Чётное число",
+    "description": "Напишите функцию `solution(n)`, которая возвращает `True`, если число чётное, и `False` — если нечётное.\n\nПример:\n```\nsolution(4)   →  True\nsolution(7)   →  False\nsolution(0)   →  True\n```",
+    "starter_code": "def solution(n):\n    pass",
+    "tests": [
+      {"args": [4], "expected": true, "label": "solution(4)"},
+      {"args": [7], "expected": false, "label": "solution(7)"},
+      {"args": [0], "expected": true, "label": "solution(0)"},
+      {"args": [-2], "expected": true, "label": "solution(-2)"},
+      {"args": [-3], "expected": false, "label": "solution(-3)"}
+    ],
+    "hint": "Число чётное, если остаток от деления на 2 равен нулю: n % 2 == 0."
+  },
+  {
+    "id": "max_of_three",
+    "order": 3,
+    "difficulty": "easy",
+    "category": "Математика",
+    "title": "Максимум из трёх",
+    "description": "Напишите функцию `solution(a, b, c)`, которая возвращает наибольшее из трёх чисел.\n\nПример:\n```\nsolution(1, 2, 3)    →  3\nsolution(7, 3, 5)    →  7\nsolution(-1, -2, -3) →  -1\n```",
+    "starter_code": "def solution(a, b, c):\n    pass",
+    "tests": [
+      {"args": [1, 2, 3], "expected": 3, "label": "solution(1, 2, 3)"},
+      {"args": [7, 3, 5], "expected": 7, "label": "solution(7, 3, 5)"},
+      {"args": [-1, -2, -3], "expected": -1, "label": "solution(-1, -2, -3)"},
+      {"args": [5, 5, 5], "expected": 5, "label": "solution(5, 5, 5)"}
+    ],
+    "hint": "Встроенная функция max() принимает несколько аргументов."
+  },
+  {
+    "id": "reverse_string",
+    "order": 4,
+    "difficulty": "easy",
+    "category": "Строки",
+    "title": "Перевернуть строку",
+    "description": "Напишите функцию `solution(s)`, которая возвращает строку в обратном порядке.\n\nПример:\n```\nsolution('hello')   →  'olleh'\nsolution('Python')  →  'nohtyP'\nsolution('a')       →  'a'\n```",
+    "starter_code": "def solution(s):\n    pass",
+    "tests": [
+      {"args": ["hello"], "expected": "olleh", "label": "solution('hello')"},
+      {"args": ["Python"], "expected": "nohtyP", "label": "solution('Python')"},
+      {"args": [""], "expected": "", "label": "solution('')"},
+      {"args": ["a"], "expected": "a", "label": "solution('a')"}
+    ],
+    "hint": "В Python строку можно перевернуть с помощью среза s[::-1]."
+  },
+  {
+    "id": "count_char",
+    "order": 5,
+    "difficulty": "easy",
+    "category": "Строки",
+    "title": "Подсчёт символа",
+    "description": "Напишите функцию `solution(s, ch)`, которая возвращает количество вхождений символа `ch` в строку `s`.\n\nПример:\n```\nsolution('hello', 'l')    →  2\nsolution('banana', 'a')   →  3\nsolution('test', 'z')     →  0\n```",
+    "starter_code": "def solution(s, ch):\n    pass",
+    "tests": [
+      {"args": ["hello", "l"], "expected": 2, "label": "solution('hello', 'l')"},
+      {"args": ["banana", "a"], "expected": 3, "label": "solution('banana', 'a')"},
+      {"args": ["test", "z"], "expected": 0, "label": "solution('test', 'z')"},
+      {"args": ["", "x"], "expected": 0, "label": "solution('', 'x')"}
+    ],
+    "hint": "Метод строки s.count(ch) возвращает количество вхождений подстроки."
+  },
+  {
+    "id": "is_palindrome",
+    "order": 6,
+    "difficulty": "easy",
+    "category": "Строки",
+    "title": "Палиндром",
+    "description": "Напишите функцию `solution(s)`, которая возвращает `True`, если строка является палиндромом (читается одинаково слева направо и справа налево). Проверка нечувствительна к регистру.\n\nПример:\n```\nsolution('racecar')  →  True\nsolution('hello')    →  False\nsolution('Madam')    →  True\n```",
+    "starter_code": "def solution(s):\n    pass",
+    "tests": [
+      {"args": ["racecar"], "expected": true, "label": "solution('racecar')"},
+      {"args": ["hello"], "expected": false, "label": "solution('hello')"},
+      {"args": ["Madam"], "expected": true, "label": "solution('Madam')"},
+      {"args": ["level"], "expected": true, "label": "solution('level')"},
+      {"args": ["python"], "expected": false, "label": "solution('python')"}
+    ],
+    "hint": "Приведите строку к нижнему регистру с .lower() и сравните с её обратной копией."
+  },
+  {
+    "id": "sum_list",
+    "order": 7,
+    "difficulty": "easy",
+    "category": "Списки",
+    "title": "Сумма списка",
+    "description": "Напишите функцию `solution(lst)`, которая возвращает сумму всех элементов списка.\n\nПример:\n```\nsolution([1, 2, 3])     →  6\nsolution([])            →  0\nsolution([-1, 1, 2])    →  2\n```",
+    "starter_code": "def solution(lst):\n    pass",
+    "tests": [
+      {"args": [[1, 2, 3]], "expected": 6, "label": "solution([1, 2, 3])"},
+      {"args": [[]], "expected": 0, "label": "solution([])"},
+      {"args": [[-1, 1]], "expected": 0, "label": "solution([-1, 1])"},
+      {"args": [[10]], "expected": 10, "label": "solution([10])"}
+    ],
+    "hint": "Встроенная функция sum() принимает список и возвращает сумму его элементов."
+  },
+  {
+    "id": "first_last",
+    "order": 8,
+    "difficulty": "easy",
+    "category": "Списки",
+    "title": "Первый и последний",
+    "description": "Напишите функцию `solution(lst)`, которая возвращает список из первого и последнего элементов входного списка.\n\nПример:\n```\nsolution([1, 2, 3, 4, 5])  →  [1, 5]\nsolution([7])              →  [7, 7]\nsolution([1, 2])           →  [1, 2]\n```",
+    "starter_code": "def solution(lst):\n    pass",
+    "tests": [
+      {"args": [[1, 2, 3, 4, 5]], "expected": [1, 5], "label": "solution([1, 2, 3, 4, 5])"},
+      {"args": [[7]], "expected": [7, 7], "label": "solution([7])"},
+      {"args": [[1, 2]], "expected": [1, 2], "label": "solution([1, 2])"},
+      {"args": [[10, 20, 30]], "expected": [10, 30], "label": "solution([10, 20, 30])"}
+    ],
+    "hint": "Используйте lst[0] для первого и lst[-1] для последнего элемента."
+  },
+  {
+    "id": "repeat_string",
+    "order": 9,
+    "difficulty": "easy",
+    "category": "Строки",
+    "title": "Повторить строку",
+    "description": "Напишите функцию `solution(s, n)`, которая возвращает строку `s`, повторённую `n` раз.\n\nПример:\n```\nsolution('ha', 3)   →  'hahaha'\nsolution('py', 1)   →  'py'\nsolution('x', 0)    →  ''\n```",
+    "starter_code": "def solution(s, n):\n    pass",
+    "tests": [
+      {"args": ["ha", 3], "expected": "hahaha", "label": "solution('ha', 3)"},
+      {"args": ["py", 1], "expected": "py", "label": "solution('py', 1)"},
+      {"args": ["x", 0], "expected": "", "label": "solution('x', 0)"},
+      {"args": ["ab", 2], "expected": "abab", "label": "solution('ab', 2)"}
+    ],
+    "hint": "В Python строку можно умножить на число: s * n."
+  },
+  {
+    "id": "absolute_diff",
+    "order": 10,
+    "difficulty": "easy",
+    "category": "Математика",
+    "title": "Абсолютная разность",
+    "description": "Напишите функцию `solution(a, b)`, которая возвращает абсолютное значение разности двух чисел.\n\nПример:\n```\nsolution(5, 3)    →  2\nsolution(3, 5)    →  2\nsolution(-1, 1)   →  2\n```",
+    "starter_code": "def solution(a, b):\n    pass",
+    "tests": [
+      {"args": [5, 3], "expected": 2, "label": "solution(5, 3)"},
+      {"args": [3, 5], "expected": 2, "label": "solution(3, 5)"},
+      {"args": [0, 0], "expected": 0, "label": "solution(0, 0)"},
+      {"args": [-1, 1], "expected": 2, "label": "solution(-1, 1)"},
+      {"args": [-5, -3], "expected": 2, "label": "solution(-5, -3)"}
+    ],
+    "hint": "Функция abs() возвращает абсолютное значение числа."
+  },
+  {
+    "id": "fibonacci",
+    "order": 11,
+    "difficulty": "medium",
+    "category": "Математика",
+    "title": "Число Фибоначчи",
+    "description": "Напишите функцию `solution(n)`, которая возвращает n-е число Фибоначчи (нумерация с нуля).\n\nПоследовательность: 0, 1, 1, 2, 3, 5, 8, 13, 21, ...\n\nПример:\n```\nsolution(0)   →  0\nsolution(1)   →  1\nsolution(5)   →  5\nsolution(10)  →  55\n```",
+    "starter_code": "def solution(n):\n    pass",
+    "tests": [
+      {"args": [0], "expected": 0, "label": "solution(0)"},
+      {"args": [1], "expected": 1, "label": "solution(1)"},
+      {"args": [2], "expected": 1, "label": "solution(2)"},
+      {"args": [5], "expected": 5, "label": "solution(5)"},
+      {"args": [10], "expected": 55, "label": "solution(10)"}
+    ],
+    "hint": "Используйте цикл и две переменные a, b = 0, 1. На каждом шаге: a, b = b, a + b."
+  },
+  {
+    "id": "is_prime",
+    "order": 12,
+    "difficulty": "medium",
+    "category": "Математика",
+    "title": "Простое число",
+    "description": "Напишите функцию `solution(n)`, которая возвращает `True`, если число `n` является простым, и `False` — если нет.\n\nПростое число делится только на 1 и на само себя. Числа 0 и 1 — не простые.\n\nПример:\n```\nsolution(2)   →  True\nsolution(4)   →  False\nsolution(17)  →  True\n```",
+    "starter_code": "def solution(n):\n    pass",
+    "tests": [
+      {"args": [2], "expected": true, "label": "solution(2)"},
+      {"args": [3], "expected": true, "label": "solution(3)"},
+      {"args": [4], "expected": false, "label": "solution(4)"},
+      {"args": [17], "expected": true, "label": "solution(17)"},
+      {"args": [1], "expected": false, "label": "solution(1)"},
+      {"args": [25], "expected": false, "label": "solution(25)"}
+    ],
+    "hint": "Проверяйте делители от 2 до sqrt(n). Для этого хватит цикла range(2, int(n**0.5) + 1)."
+  },
+  {
+    "id": "count_unique",
+    "order": 13,
+    "difficulty": "medium",
+    "category": "Списки",
+    "title": "Уникальные элементы",
+    "description": "Напишите функцию `solution(lst)`, которая возвращает количество уникальных элементов в списке.\n\nПример:\n```\nsolution([1, 2, 3, 2, 1])   →  3\nsolution([1, 1, 1])         →  1\nsolution([])                →  0\n```",
+    "starter_code": "def solution(lst):\n    pass",
+    "tests": [
+      {"args": [[1, 2, 3, 2, 1]], "expected": 3, "label": "solution([1, 2, 3, 2, 1])"},
+      {"args": [[1, 1, 1]], "expected": 1, "label": "solution([1, 1, 1])"},
+      {"args": [[]], "expected": 0, "label": "solution([])"},
+      {"args": [[1, 2, 3]], "expected": 3, "label": "solution([1, 2, 3])"}
+    ],
+    "hint": "Преобразуйте список в множество set(), а затем найдите его длину через len()."
+  },
+  {
+    "id": "flatten",
+    "order": 14,
+    "difficulty": "medium",
+    "category": "Списки",
+    "title": "Раскрыть вложенный список",
+    "description": "Напишите функцию `solution(lst)`, которая «раскрывает» вложенный список на один уровень.\n\nПример:\n```\nsolution([[1, 2], [3, 4]])     →  [1, 2, 3, 4]\nsolution([1, [2, 3], 4])      →  [1, 2, 3, 4]\nsolution([[1], [2], [3]])     →  [1, 2, 3]\n```",
+    "starter_code": "def solution(lst):\n    pass",
+    "tests": [
+      {"args": [[[1, 2], [3, 4]]], "expected": [1, 2, 3, 4], "label": "solution([[1, 2], [3, 4]])"},
+      {"args": [[1, [2, 3], 4]], "expected": [1, 2, 3, 4], "label": "solution([1, [2, 3], 4])"},
+      {"args": [[[1], [2], [3]]], "expected": [1, 2, 3], "label": "solution([[1], [2], [3]])"},
+      {"args": [[[]]], "expected": [], "label": "solution([[]])"}
+    ],
+    "hint": "Пройдите по элементам списка. Если элемент — список, добавьте его содержимое через extend(), иначе через append()."
+  },
+  {
+    "id": "is_anagram",
+    "order": 15,
+    "difficulty": "medium",
+    "category": "Строки",
+    "title": "Анаграмма",
+    "description": "Напишите функцию `solution(s1, s2)`, которая возвращает `True`, если строки являются анаграммами друг друга (содержат одинаковые буквы в любом порядке). Регистр не важен.\n\nПример:\n```\nsolution('listen', 'silent')   →  True\nsolution('hello', 'world')    →  False\nsolution('Python', 'typhon')  →  True\n```",
+    "starter_code": "def solution(s1, s2):\n    pass",
+    "tests": [
+      {"args": ["listen", "silent"], "expected": true, "label": "solution('listen', 'silent')"},
+      {"args": ["hello", "world"], "expected": false, "label": "solution('hello', 'world')"},
+      {"args": ["Python", "typhon"], "expected": true, "label": "solution('Python', 'typhon')"},
+      {"args": ["cat", "car"], "expected": false, "label": "solution('cat', 'car')"}
+    ],
+    "hint": "Отсортируйте буквы обеих строк (приведя к нижнему регистру) и сравните: sorted(s1.lower()) == sorted(s2.lower())."
+  },
+  {
+    "id": "two_sum",
+    "order": 16,
+    "difficulty": "medium",
+    "category": "Списки",
+    "title": "Сумма двух индексов",
+    "description": "Напишите функцию `solution(lst, target)`, которая находит два числа в списке, сумма которых равна `target`, и возвращает их **индексы** в виде списка `[i, j]`, где `i < j`.\n\nГарантируется, что решение всегда существует.\n\nПример:\n```\nsolution([2, 7, 11, 15], 9)   →  [0, 1]\nsolution([3, 2, 4], 6)        →  [1, 2]\nsolution([3, 3], 6)           →  [0, 1]\n```",
+    "starter_code": "def solution(lst, target):\n    pass",
+    "tests": [
+      {"args": [[2, 7, 11, 15], 9], "expected": [0, 1], "label": "solution([2, 7, 11, 15], 9)"},
+      {"args": [[3, 2, 4], 6], "expected": [1, 2], "label": "solution([3, 2, 4], 6)"},
+      {"args": [[3, 3], 6], "expected": [0, 1], "label": "solution([3, 3], 6)"}
+    ],
+    "hint": "Используйте словарь для хранения увиденных чисел: {число: индекс}. Для каждого элемента проверяйте, есть ли в словаре его «дополнение» до target."
+  },
+  {
+    "id": "most_frequent",
+    "order": 17,
+    "difficulty": "medium",
+    "category": "Списки",
+    "title": "Самый частый элемент",
+    "description": "Напишите функцию `solution(lst)`, которая возвращает наиболее часто встречающийся элемент. Если несколько элементов встречаются одинаково часто — верните наименьший из них.\n\nПример:\n```\nsolution([1, 2, 2, 3, 3, 3])   →  3\nsolution([1, 1, 2, 2])         →  1\nsolution([5])                  →  5\n```",
+    "starter_code": "def solution(lst):\n    pass",
+    "tests": [
+      {"args": [[1, 2, 2, 3, 3, 3]], "expected": 3, "label": "solution([1, 2, 2, 3, 3, 3])"},
+      {"args": [[1, 1, 2, 2]], "expected": 1, "label": "solution([1, 1, 2, 2])"},
+      {"args": [[5]], "expected": 5, "label": "solution([5])"},
+      {"args": [[3, 1, 2, 1, 3, 1]], "expected": 1, "label": "solution([3, 1, 2, 1, 3, 1])"}
+    ],
+    "hint": "Используйте словарь для подсчёта частот или collections.Counter. Найдите максимальную частоту, затем — наименьший элемент с ней."
+  },
+  {
+    "id": "caesar_cipher",
+    "order": 18,
+    "difficulty": "medium",
+    "category": "Строки",
+    "title": "Шифр Цезаря",
+    "description": "Напишите функцию `solution(text, shift)`, которая шифрует текст сдвигом Цезаря на `shift` позиций. Сдвигаются только буквы (регистр сохраняется), остальные символы остаются без изменений. Алфавит зацикленный (после z идёт a).\n\nПример:\n```\nsolution('Hello', 3)         →  'Khoor'\nsolution('xyz', 3)           →  'abc'\nsolution('Hello, World!', 13) → 'Uryyb, Jbeyq!'\n```",
+    "starter_code": "def solution(text, shift):\n    pass",
+    "tests": [
+      {"args": ["Hello", 3], "expected": "Khoor", "label": "solution('Hello', 3)"},
+      {"args": ["xyz", 3], "expected": "abc", "label": "solution('xyz', 3)"},
+      {"args": ["ABC", 1], "expected": "BCD", "label": "solution('ABC', 1)"},
+      {"args": ["Hello, World!", 13], "expected": "Uryyb, Jbeyq!", "label": "solution('Hello, World!', 13)"}
+    ],
+    "hint": "Для буквы ch: base = ord('A') если заглавная, ord('a') если строчная. Результат: chr((ord(ch) - base + shift) % 26 + base)."
+  },
+  {
+    "id": "binary_search",
+    "order": 19,
+    "difficulty": "hard",
+    "category": "Алгоритмы",
+    "title": "Бинарный поиск",
+    "description": "Напишите функцию `solution(lst, target)`, которая реализует бинарный поиск. Функция принимает **отсортированный** список и целевое значение, и возвращает **индекс** элемента в списке или `-1`, если элемент не найден.\n\nПример:\n```\nsolution([1, 3, 5, 7, 9], 5)   →  2\nsolution([1, 3, 5, 7, 9], 4)   →  -1\nsolution([1, 3, 5, 7, 9], 1)   →  0\n```",
+    "starter_code": "def solution(lst, target):\n    pass",
+    "tests": [
+      {"args": [[1, 3, 5, 7, 9], 5], "expected": 2, "label": "solution([1,3,5,7,9], 5)"},
+      {"args": [[1, 3, 5, 7, 9], 1], "expected": 0, "label": "solution([1,3,5,7,9], 1)"},
+      {"args": [[1, 3, 5, 7, 9], 9], "expected": 4, "label": "solution([1,3,5,7,9], 9)"},
+      {"args": [[1, 3, 5, 7, 9], 4], "expected": -1, "label": "solution([1,3,5,7,9], 4)"},
+      {"args": [[], 5], "expected": -1, "label": "solution([], 5)"}
+    ],
+    "hint": "Поддерживайте два указателя: left = 0, right = len(lst) - 1. На каждом шаге вычисляйте mid = (left + right) // 2 и сдвигайте нужный указатель."
+  },
+  {
+    "id": "valid_brackets",
+    "order": 20,
+    "difficulty": "hard",
+    "category": "Алгоритмы",
+    "title": "Валидные скобки",
+    "description": "Напишите функцию `solution(s)`, которая возвращает `True`, если строка содержит правильно вложенные и закрытые скобки `()`, `[]`, `{}`.\n\nПример:\n```\nsolution('()')       →  True\nsolution('()[]{}'  ) →  True\nsolution('(]')       →  False\nsolution('{[()]}')   →  True\nsolution('{[}]')     →  False\n```",
+    "starter_code": "def solution(s):\n    pass",
+    "tests": [
+      {"args": ["()"], "expected": true, "label": "solution('()')"},
+      {"args": ["()[]{}"], "expected": true, "label": "solution('()[]{}')" },
+      {"args": ["(]"], "expected": false, "label": "solution('(]')"},
+      {"args": ["{[()]}"], "expected": true, "label": "solution('{[()]}')"},
+      {"args": ["{[}]"], "expected": false, "label": "solution('{[}]')"},
+      {"args": [""], "expected": true, "label": "solution('')"}
+    ],
+    "hint": "Используйте стек (список). Для открывающих скобок — добавляйте в стек. Для закрывающих — проверяйте, что верхушка стека — соответствующая открывающая."
+  },
+  {
+    "id": "count_ways",
+    "order": 21,
+    "difficulty": "hard",
+    "category": "Алгоритмы",
+    "title": "Лестница",
+    "description": "Вы поднимаетесь по лестнице из `n` ступеней. За один шаг можно подняться на 1 или 2 ступени. Напишите функцию `solution(n)`, которая возвращает количество различных способов добраться до верха.\n\nПример:\n```\nsolution(1)   →  1  (только [1])\nsolution(2)   →  2  ([1,1] или [2])\nsolution(3)   →  3  ([1,1,1], [1,2], [2,1])\nsolution(5)   →  8\n```",
+    "starter_code": "def solution(n):\n    pass",
+    "tests": [
+      {"args": [1], "expected": 1, "label": "solution(1)"},
+      {"args": [2], "expected": 2, "label": "solution(2)"},
+      {"args": [3], "expected": 3, "label": "solution(3)"},
+      {"args": [4], "expected": 5, "label": "solution(4)"},
+      {"args": [5], "expected": 8, "label": "solution(5)"},
+      {"args": [10], "expected": 89, "label": "solution(10)"}
+    ],
+    "hint": "Это задача на динамическое программирование. Количество способов для n ступеней = ways(n-1) + ways(n-2). Напоминает последовательность Фибоначчи!"
+  },
+  {
+    "id": "group_anagrams",
+    "order": 22,
+    "difficulty": "hard",
+    "category": "Строки",
+    "title": "Группировка анаграмм",
+    "description": "Напишите функцию `solution(words)`, которая группирует слова-анаграммы вместе. Верните список групп, где каждая группа отсортирована по алфавиту, а сами группы отсортированы по первому элементу.\n\nПример:\n```\nsolution(['eat','tea','tan','ate','nat','bat'])\n→ [['ate','eat','tea'], ['bat'], ['nat','tan']]\n\nsolution(['abc','bca','cab'])\n→ [['abc','bca','cab']]\n```",
+    "starter_code": "def solution(words):\n    pass",
+    "tests": [
+      {"args": [["eat","tea","tan","ate","nat","bat"]], "expected": [["ate","eat","tea"],["bat"],["nat","tan"]], "label": "solution(['eat','tea','tan','ate','nat','bat'])"},
+      {"args": [["a"]], "expected": [["a"]], "label": "solution(['a'])"},
+      {"args": [["abc","bca","cab"]], "expected": [["abc","bca","cab"]], "label": "solution(['abc','bca','cab'])"}
+    ],
+    "hint": "Используйте словарь, где ключ — отсортированные буквы слова ('eat' → 'aet'). Значение — список слов с таким ключом. В конце отсортируйте каждую группу и весь список групп."
+  }
+]

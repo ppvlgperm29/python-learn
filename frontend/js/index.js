@@ -59,11 +59,22 @@ function renderTopicsGrid(topics) {
   }).join('')}</div>`;
 }
 
+function updatePracticeBadge() {
+  try {
+    const solved = JSON.parse(localStorage.getItem('practice_solved') || '[]');
+    const badge = document.getElementById('practice-nav-badge');
+    if (!badge || solved.length === 0) { if (badge) badge.textContent = ''; return; }
+    badge.textContent = solved.length;
+    badge.className = 'nav-item__badge nav-item__badge--progress';
+  } catch { /* ignore */ }
+}
+
 async function init() {
   try {
     const topics = await API.getTopics();
     renderSidebarNav(topics, null);
     renderTopicsGrid(topics);
+    updatePracticeBadge();
   } catch (e) {
     document.getElementById('topics-container').innerHTML =
       `<div class="loading">Не удалось загрузить темы.<br>Убедитесь, что сервер запущен:<br><code>uvicorn backend.app:app --port 8000</code></div>`;

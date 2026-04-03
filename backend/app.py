@@ -1,13 +1,12 @@
 import json
-import os
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
-from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 
 BASE_DIR = Path(__file__).parent
 TOPICS_DIR = BASE_DIR / "data" / "topics"
+CHALLENGES_FILE = BASE_DIR / "data" / "challenges.json"
 FRONTEND_DIR = BASE_DIR.parent / "frontend"
 
 app = FastAPI(title="Python Learn API")
@@ -49,6 +48,12 @@ def get_topic(slug: str):
     if topic is None:
         raise HTTPException(status_code=404, detail="Topic not found")
     return topic
+
+
+@app.get("/api/challenges")
+def get_challenges():
+    with open(CHALLENGES_FILE, encoding="utf-8") as f:
+        return json.load(f)
 
 
 app.mount("/", StaticFiles(directory=str(FRONTEND_DIR), html=True), name="static")

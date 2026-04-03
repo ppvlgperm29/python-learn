@@ -9,4 +9,5 @@ async function apiGet(path) {
 const API = {
   getTopics: () => apiGet('/topics'),
   getTopic: (slug) => apiGet(`/topics/${slug}`),
+  getChallenges: () => apiGet('/challenges'),
 };
