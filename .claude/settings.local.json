@@ -1,0 +1,18 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python3 -c \":*)",
+      "WebFetch(domain:doka.guide)",
+      "Bash(python3 -c \"import fastapi, uvicorn; from backend.app import app; print\\(''OK''\\)\")",
+      "Bash(du -sh ~/*)",
+      "Bash(du -sh /Users/oleg/Library/Application Support/*)",
+      "Bash(find '/Users/oleg/Library/Application Support' -maxdepth 1 -type d -exec du -sh {})",
+      "Bash(2)",
+      "Bash(pkill -x Steam)",
+      "Bash(rm -rf \"/Users/oleg/Library/HTTPStorages/com.valvesoftware.steam.helper\")",
+      "Bash(rm -f \"/Users/oleg/Library/LaunchAgents/com.valvesoftware.steamclean.plist\")",
+      "Bash(rm -f \"/Users/oleg/Library/Application Support/CrashReporter/steam_osx_3DDC588D-0FE3-51D5-929A-833D7E4E3950.plist\")",
+      "Bash(python3 -c ':*)"
+    ]
+  }
+}

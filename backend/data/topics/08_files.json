@@ -1,0 +1,133 @@
+{
+  "id": 8,
+  "slug": "files",
+  "title": "Файлы",
+  "description": "Чтение и запись файлов, работа с путями и обработка ошибок при работе с файловой системой",
+  "order": 8,
+  "sections": [
+    {
+      "type": "text",
+      "content": "Работа с файлами позволяет сохранять данные между запусками программы. Python делает это простым: открыть файл, прочитать или записать данные, закрыть. Главное правило — файл всегда нужно закрывать после использования. Конструкция with делает это автоматически."
+    },
+
+    {
+      "type": "heading",
+      "content": "Чтение файлов"
+    },
+
+    {
+      "type": "code_example",
+      "title": "Открытие и чтение файла",
+      "code": "# Создадим файл для примеров\nwith open('example.txt', 'w', encoding='utf-8') as f:\n    f.write('Первая строка\\n')\n    f.write('Вторая строка\\n')\n    f.write('Третья строка\\n')\n\n# Прочитать весь файл целиком\nwith open('example.txt', 'r', encoding='utf-8') as f:\n    content = f.read()\nprint(content)\n\n# Прочитать построчно в список\nwith open('example.txt', 'r', encoding='utf-8') as f:\n    lines = f.readlines()\nprint(lines)   # ['Первая строка\\n', 'Вторая строка\\n', ...]\nprint(len(lines))  # 3",
+      "explanation": "with open(...) as f: — стандартный способ работы с файлами. После выхода из блока with файл закрывается автоматически, даже если произошла ошибка. encoding='utf-8' — всегда указывайте кодировку, чтобы корректно читать кириллицу."
+    },
+
+    {
+      "type": "code_example",
+      "title": "Построчное чтение",
+      "code": "# Создадим файл с числами\nwith open('numbers.txt', 'w') as f:\n    for i in range(1, 6):\n        f.write(f'{i}\\n')\n\n# Самый экономный способ — итерация по файлу\n# Python читает по одной строке, не загружая всё в память\nwith open('numbers.txt', 'r') as f:\n    for line in f:\n        line = line.strip()  # убираем \\n в конце\n        print(f'Строка: {line}')\n\n# Если нужно обработать и сохранить\nwith open('numbers.txt', 'r') as f:\n    numbers = [int(line.strip()) for line in f]\nprint(numbers)   # [1, 2, 3, 4, 5]\nprint(sum(numbers))  # 15",
+      "explanation": "Итерация по файлу (for line in f) читает по одной строке — это самый эффективный способ для больших файлов. readlines() загружает всё сразу — удобно для маленьких файлов. strip() убирает пробелы и символ \\n с концов строки."
+    },
+
+    {
+      "type": "heading",
+      "content": "Запись файлов"
+    },
+
+    {
+      "type": "code_example",
+      "title": "Режимы открытия файла",
+      "code": "# 'w' — запись (перезаписывает файл если он существует)\nwith open('log.txt', 'w', encoding='utf-8') as f:\n    f.write('Начало логов\\n')\n\n# 'a' — добавление в конец (не перезаписывает)\nwith open('log.txt', 'a', encoding='utf-8') as f:\n    f.write('Новая запись\\n')\n    f.write('Ещё одна запись\\n')\n\n# 'r' — только чтение (по умолчанию)\nwith open('log.txt', 'r', encoding='utf-8') as f:\n    print(f.read())\n\n# writelines — записать список строк\nlines = ['строка 1\\n', 'строка 2\\n', 'строка 3\\n']\nwith open('output.txt', 'w', encoding='utf-8') as f:\n    f.writelines(lines)",
+      "explanation": "Режим 'w' создаёт файл если его нет, или СТИРАЕТ содержимое если файл существует. Режим 'a' всегда добавляет в конец, не трогая то, что было. Для логов используйте 'a'. Для создания нового файла — 'w'."
+    },
+
+    {
+      "type": "note",
+      "content": "Всегда указывайте encoding='utf-8' при работе с текстовыми файлами, особенно если в них есть кириллица или другие не-ASCII символы. Без явного указания кодировки поведение зависит от операционной системы и может приводить к ошибкам."
+    },
+
+    {
+      "type": "heading",
+      "content": "Обработка ошибок"
+    },
+
+    {
+      "type": "code_example",
+      "title": "Что делать если файл не найден",
+      "code": "# FileNotFoundError если файл не существует\ntry:\n    with open('несуществующий.txt', 'r') as f:\n        content = f.read()\nexcept FileNotFoundError:\n    print('Файл не найден')\n\n# Проверить существование до открытия\nimport os\n\nfilename = 'data.txt'\nif os.path.exists(filename):\n    with open(filename, 'r', encoding='utf-8') as f:\n        print(f.read())\nelse:\n    print(f'Файл {filename} не существует')\n\n# Полезные функции os.path\nprint(os.path.exists('example.txt'))    # True/False\nprint(os.path.getsize('example.txt'))   # размер в байтах",
+      "explanation": "try/except FileNotFoundError — правильный способ обработать отсутствие файла. os.path.exists() позволяет проверить файл до открытия. Модуль os даёт доступ к операционной системе: файлы, папки, переменные окружения."
+    },
+
+    {
+      "type": "hood",
+      "title": "Что происходит когда вы открываете файл",
+      "content": "Когда программа открывает файл, она не копирует его содержимое сразу в память. Вместо этого операционная система выдаёт программе специальный пропуск — дескриптор файла. Это как взять книгу в библиотеке: вы получаете книгу в пользование, но она по-прежнему числится в библиотечной системе. Пока файл открыт, операционная система знает, что кто-то с ним работает. Когда вы закрываете файл (или выходите из блока with), пропуск возвращается — операционная система понимает, что файл свободен, и записывает на диск все изменения, которые могли быть в буфере."
+    },
+
+    {
+      "type": "code_example",
+      "title": "Работа с JSON-файлами",
+      "code": "import json\n\n# Сохранить данные в JSON\nuser = {\n    'name': 'Иван',\n    'age': 30,\n    'languages': ['Python', 'JavaScript']\n}\n\nwith open('user.json', 'w', encoding='utf-8') as f:\n    json.dump(user, f, ensure_ascii=False, indent=2)\n\n# Файл будет выглядеть так:\n# {\n#   \"name\": \"Иван\",\n#   \"age\": 30,\n#   \"languages\": [\"Python\", \"JavaScript\"]\n# }\n\n# Прочитать JSON обратно в словарь\nwith open('user.json', 'r', encoding='utf-8') as f:\n    loaded = json.load(f)\n\nprint(loaded['name'])           # Иван\nprint(loaded['languages'][0])   # Python\nprint(type(loaded))             # <class 'dict'>",
+      "explanation": "JSON — самый распространённый формат обмена данными. json.dump() записывает Python-объект в файл, json.load() читает обратно. ensure_ascii=False сохраняет кириллицу как есть (не как \\uXXXX), indent=2 делает файл читаемым."
+    },
+
+    {
+      "type": "code_example",
+      "title": "Работа с CSV-файлами",
+      "code": "import csv\n\n# Запись CSV\ndata = [\n    ['Имя', 'Возраст', 'Город'],\n    ['Иван', '30', 'Москва'],\n    ['Мария', '25', 'СПб'],\n]\n\nwith open('people.csv', 'w', newline='', encoding='utf-8') as f:\n    writer = csv.writer(f)\n    writer.writerows(data)\n\n# Чтение CSV\nwith open('people.csv', 'r', encoding='utf-8') as f:\n    reader = csv.reader(f)\n    for row in reader:\n        print(row)",
+      "explanation": "Модуль csv упрощает работу с таблицами в формате CSV. newline='' нужен на Windows чтобы избежать лишних пустых строк. CSV — простой текстовый формат, который открывается в Excel и Google Таблицах."
+    }
+  ],
+  "tasks": [
+    {
+      "id": "files_1",
+      "order": 1,
+      "difficulty": "easy",
+      "title": "Создать и прочитать",
+      "description": "Создайте файл hello.txt и запишите в него строку 'Hello, File!'. Затем откройте его и выведите содержимое.",
+      "starter_code": "# Запишите 'Hello, File!' в файл hello.txt\n# Затем прочитайте и выведите содержимое\n",
+      "expected_output": "Hello, File!\n",
+      "hint": "Сначала open('hello.txt', 'w') и f.write(...), затем open('hello.txt', 'r') и f.read()"
+    },
+    {
+      "id": "files_2",
+      "order": 2,
+      "difficulty": "easy",
+      "title": "Добавление в файл",
+      "description": "Создайте файл log.txt с текстом 'Запись 1'. Затем добавьте в него 'Запись 2' (не перезаписывая). Прочитайте и выведите всё содержимое.",
+      "starter_code": "# Создайте файл с 'Запись 1', добавьте 'Запись 2', прочитайте\n",
+      "expected_output": "Запись 1\nЗапись 2\n",
+      "hint": "Первый open — режим 'w', второй open — режим 'a'"
+    },
+    {
+      "id": "files_3",
+      "order": 3,
+      "difficulty": "medium",
+      "title": "Подсчёт строк",
+      "description": "Создайте файл data.txt с пятью строками (числа 1–5, каждое на своей строке). Откройте файл, посчитайте количество строк и выведите результат.",
+      "starter_code": "# Создайте файл с числами 1-5, посчитайте строки\n",
+      "expected_output": "5\n",
+      "hint": "Запишите числа через \\n. Читайте через readlines() и берите len()"
+    },
+    {
+      "id": "files_4",
+      "order": 4,
+      "difficulty": "medium",
+      "title": "Обработка ошибки",
+      "description": "Попробуйте открыть файл missing.txt. Если файл не найден — выведите 'Файл не найден'. Используйте try/except.",
+      "starter_code": "# Попытайтесь открыть missing.txt и обработайте ошибку\n",
+      "expected_output": "Файл не найден\n",
+      "hint": "try: open('missing.txt') except FileNotFoundError: print(...)"
+    },
+    {
+      "id": "files_5",
+      "order": 5,
+      "difficulty": "hard",
+      "title": "Фильтрация строк",
+      "description": "Создайте файл words.txt со строками: 'apple', 'banana', 'apricot', 'cherry', 'avocado'. Прочитайте файл и выведите только те строки, которые начинаются на букву 'a'.",
+      "starter_code": "# Создайте файл и выведите только строки начинающиеся на 'a'\n",
+      "expected_output": "apple\napricot\navocado\n",
+      "hint": "При чтении используйте line.strip() и проверяйте line.startswith('a')"
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Python Learn</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/animations.css">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/sidebar.css">
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <a href="/" class="sidebar__logo">
+        <div class="sidebar__logo-text">
+          <span class="sidebar__logo-icon">PY</span>
+          Python Learn
+        </div>
+        <div class="sidebar__logo-sub">Интерактивный курс</div>
+      </a>
+      <nav class="sidebar__nav">
+        <div class="sidebar__section-label">Темы</div>
+        <div id="sidebar-nav"></div>
+      </nav>
+      <div class="sidebar__footer">9 тем · для начинающих</div>
+    </aside>
+
+    <main class="main-content">
+      <div class="content-inner">
+      <div class="page-header">
+        <h1 class="page-title">Python Learn</h1>
+        <p class="page-subtitle">Изучайте Python по темам — теория, примеры с объяснениями и практические задачи</p>
+      </div>
+
+      <div id="topics-container">
+        <div class="loading">
+          <div class="loading-spinner"></div>
+          <div>Загрузка...</div>
+        </div>
+      </div>
+      </div>
+    </main>
+  </div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/index.js"></script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+{
+  "id": 7,
+  "slug": "dicts",
+  "title": "Словари",
+  "description": "Хранение данных в формате ключ-значение, быстрый поиск и работа с парами данных",
+  "order": 7,
+  "sections": [
+    {
+      "type": "text",
+      "content": "Словарь — это коллекция пар ключ-значение. В отличие от списка, где данные хранятся по порядку и доступны по номеру, в словаре каждое значение хранится под своим именем — ключом. Словари отлично подходят для хранения структурированных данных: профиль пользователя, настройки приложения, результаты подсчётов."
+    },
+
+    {
+      "type": "heading",
+      "content": "Создание и обращение к данным"
+    },
+
+    {
+      "type": "code_example",
+      "title": "Создание словаря и доступ к значениям",
+      "code": "# Создание словаря\nperson = {\n    'name': 'Иван',\n    'age': 30,\n    'city': 'Москва'\n}\n\n# Доступ по ключу\nprint(person['name'])   # Иван\nprint(person['age'])    # 30\n\n# Если ключа нет — KeyError\n# print(person['email'])  # KeyError!\n\n# Безопасный доступ через get()\nprint(person.get('email'))           # None\nprint(person.get('email', 'не задан'))  # не задан\n\n# Изменение и добавление\nperson['age'] = 31           # изменить существующий\nperson['email'] = 'i@ya.ru'  # добавить новый ключ\nprint(person)",
+      "explanation": "person['key'] бросает KeyError если ключа нет. get('key') — безопасная альтернатива: возвращает None или значение по умолчанию. Добавление нового ключа — просто присваивание."
+    },
+
+    {
+      "type": "heading",
+      "content": "Методы словаря"
+    },
+
+    {
+      "type": "code_example",
+      "title": "Ключи, значения, пары",
+      "code": "person = {'name': 'Анна', 'age': 25, 'city': 'СПб'}\n\n# Получить все ключи\nprint(person.keys())    # dict_keys(['name', 'age', 'city'])\n\n# Получить все значения\nprint(person.values())  # dict_values(['Анна', 25, 'СПб'])\n\n# Получить пары ключ-значение\nprint(person.items())   # dict_items([('name', 'Анна'), ...])\n\n# Проверить наличие ключа\nprint('name' in person)   # True\nprint('email' in person)  # False\n\n# Удаление\ndel person['city']\nprint(person)  # {'name': 'Анна', 'age': 25}\n\nage = person.pop('age')  # удалить и получить значение\nprint(age)     # 25",
+      "explanation": "keys(), values(), items() возвращают специальные объекты-представления — они всегда отражают актуальное состояние словаря. Для перебора их преобразовывать не нужно — можно использовать напрямую в for."
+    },
+
+    {
+      "type": "code_example",
+      "title": "Перебор словаря",
+      "code": "scores = {'Иван': 85, 'Мария': 92, 'Пётр': 78}\n\n# Перебор по ключам (по умолчанию)\nfor name in scores:\n    print(name)\n\n# Перебор по парам — самый частый вариант\nfor name, score in scores.items():\n    print(f'{name}: {score} баллов')\n\n# Перебор только значений\ntotal = 0\nfor score in scores.values():\n    total += score\nprint(f'Средний балл: {total / len(scores):.1f}')",
+      "explanation": "for key in dict: перебирает ключи. Для одновременного доступа к ключу и значению используйте for k, v in dict.items() — это самый читаемый и распространённый паттерн."
+    },
+
+    {
+      "type": "code_example",
+      "title": "update(), setdefault() и создание словаря",
+      "code": "# update() — добавить/обновить сразу несколько ключей\nperson = {'name': 'Иван', 'age': 30}\nperson.update({'age': 31, 'city': 'Москва', 'job': 'разработчик'})\nprint(person)\n# {'name': 'Иван', 'age': 31, 'city': 'Москва', 'job': 'разработчик'}\n\n# setdefault() — установить значение только если ключа нет\nd = {'a': 1}\nd.setdefault('a', 99)   # ключ есть — не меняет\nd.setdefault('b', 99)   # ключа нет — ставит 99\nprint(d)  # {'a': 1, 'b': 99}\n\n# Создание словаря из двух списков через zip()\nkeys = ['name', 'age', 'city']\nvalues = ['Мария', 25, 'СПб']\nprofile = dict(zip(keys, values))\nprint(profile)  # {'name': 'Мария', 'age': 25, 'city': 'СПб'}\n\n# Очистка словаря\nprofile.clear()\nprint(profile)  # {}",
+      "explanation": "update() — удобный способ слить два словаря, ключи из второго перезаписывают первый. setdefault() часто используют для инициализации: если ключа нет — ставит значение по умолчанию и возвращает его. dict(zip(keys, values)) — классический способ построить словарь из двух списков."
+    },
+
+    {
+      "type": "code_example",
+      "title": "Dict comprehension — создание словаря одной строкой",
+      "code": "# Словарь «число → квадрат»\nsquares = {n: n ** 2 for n in range(1, 6)}\nprint(squares)  # {1: 1, 2: 4, 3: 9, 4: 16, 5: 25}\n\n# С условием — только чётные\neven_sq = {n: n ** 2 for n in range(1, 11) if n % 2 == 0}\nprint(even_sq)  # {2: 4, 4: 16, 6: 36, 8: 64, 10: 100}\n\n# Перевернуть словарь (ключи ↔ значения)\noriginal = {'a': 1, 'b': 2, 'c': 3}\ninverted = {v: k for k, v in original.items()}\nprint(inverted)  # {1: 'a', 2: 'b', 3: 'c'}\n\n# Перевести все ключи строкового словаря в нижний регистр\ndata = {'Name': 'Иван', 'AGE': 30, 'City': 'Москва'}\nnormalized = {k.lower(): v for k, v in data.items()}\nprint(normalized)  # {'name': 'Иван', 'age': 30, 'city': 'Москва'}",
+      "explanation": "Dict comprehension работает так же, как list comprehension, но создаёт словарь. Синтаксис: {ключ: значение for элемент in коллекция if условие}. Условие необязательно. Это питонический способ трансформировать словари."
+    },
+
+    {
+      "type": "note",
+      "content": "Ключи словаря должны быть неизменяемыми типами: строки, числа, кортежи. Список использовать как ключ нельзя. Значениями могут быть любые объекты, в том числе другие словари и списки."
+    },
+
+    {
+      "type": "heading",
+      "content": "Частые паттерны использования"
+    },
+
+    {
+      "type": "code_example",
+      "title": "Подсчёт и группировка",
+      "code": "# Подсчёт вхождений\nwords = ['python', 'java', 'python', 'c++', 'java', 'python']\ncounts = {}\n\nfor word in words:\n    if word in counts:\n        counts[word] += 1\n    else:\n        counts[word] = 1\n\nprint(counts)  # {'python': 3, 'java': 2, 'c++': 1}\n\n# То же самое через get()\ncounts2 = {}\nfor word in words:\n    counts2[word] = counts2.get(word, 0) + 1\n\nprint(counts2)  # {'python': 3, 'java': 2, 'c++': 1}",
+      "explanation": "Паттерн подсчёта через get() — очень распространён: counts.get(key, 0) возвращает текущее значение или 0 если ключа ещё нет, затем мы прибавляем 1 и записываем обратно."
+    },
+
+    {
+      "type": "code_example",
+      "title": "Вложенные словари",
+      "code": "# Словарь с вложенными словарями\nusers = {\n    'ivan': {\n        'name': 'Иван Петров',\n        'age': 30,\n        'active': True\n    },\n    'maria': {\n        'name': 'Мария Сидорова',\n        'age': 25,\n        'active': False\n    }\n}\n\n# Доступ к вложенным данным\nprint(users['ivan']['name'])    # Иван Петров\nprint(users['maria']['age'])    # 25\n\n# Перебор\nfor username, info in users.items():\n    status = 'активен' if info['active'] else 'неактивен'\n    print(f'{username}: {info[\"name\"]} — {status}')",
+      "explanation": "Вложенные словари — стандартный способ представлять JSON-данные, конфиги, ответы от API. Глубину вложенности ничто не ограничивает, но больше 2–3 уровней читать уже сложно."
+    },
+
+    {
+      "type": "hood",
+      "title": "Почему словарь находит ключ мгновенно",
+      "content": "Когда вы ищете элемент в списке, Python просматривает его с начала до конца — чем длиннее список, тем дольше поиск. Словарь работает иначе: он вычисляет по ключу специальное число — хэш — и сразу идёт в нужную ячейку, не просматривая остальное. Это как искать слово в словаре по алфавитному указателю, а не листать все страницы подряд. Поэтому person['name'] выполняется одинаково быстро, неважно, сколько ключей в словаре — хоть десять, хоть миллион."
+    }
+  ],
+  "tasks": [
+    {
+      "id": "dicts_1",
+      "order": 1,
+      "difficulty": "easy",
+      "title": "Профиль пользователя",
+      "description": "Создайте словарь user с ключами name (значение 'Алексей'), age (значение 28) и city (значение 'Казань'). Выведите каждое значение на отдельной строке.",
+      "starter_code": "user = {}\n# Добавьте ключи и выведите значения\n",
+      "expected_output": "Алексей\n28\nКазань\n",
+      "hint": "user = {'name': 'Алексей', 'age': 28, 'city': 'Казань'}, затем print(user['name']) и т.д."
+    },
+    {
+      "id": "dicts_2",
+      "order": 2,
+      "difficulty": "easy",
+      "title": "Безопасный доступ",
+      "description": "Дан словарь settings = {'theme': 'dark', 'language': 'ru'}. Выведите значение ключа 'theme', затем значение ключа 'font_size' — если его нет, выведите 14.",
+      "starter_code": "settings = {'theme': 'dark', 'language': 'ru'}\n# Выведите theme и font_size (с умолчанием 14)\n",
+      "expected_output": "dark\n14\n",
+      "hint": "Используйте settings.get('font_size', 14)"
+    },
+    {
+      "id": "dicts_3",
+      "order": 3,
+      "difficulty": "medium",
+      "title": "Перебор пар",
+      "description": "Дан словарь prices = {'яблоко': 50, 'банан': 30, 'вишня': 120}. Выведите каждую пару в формате: 'яблоко: 50 руб.'",
+      "starter_code": "prices = {'яблоко': 50, 'банан': 30, 'вишня': 120}\n# Выведите каждую пару\n",
+      "expected_output": "яблоко: 50 руб.\nбанан: 30 руб.\nвишня: 120 руб.\n",
+      "hint": "Используйте for name, price in prices.items():"
+    },
+    {
+      "id": "dicts_4",
+      "order": 4,
+      "difficulty": "medium",
+      "title": "Подсчёт символов",
+      "description": "Дана строка text = 'hello'. Подсчитайте, сколько раз встречается каждый символ, и выведите пары в формате 'h: 1', 'e: 1' и т.д.",
+      "starter_code": "text = 'hello'\ncounts = {}\n# Подсчитайте вхождения каждого символа\n",
+      "expected_output": "h: 1\ne: 1\nl: 2\no: 1\n",
+      "hint": "Перебирайте символы цикло for, используйте counts.get(char, 0) + 1"
+    },
+    {
+      "id": "dicts_5",
+      "order": 5,
+      "difficulty": "hard",
+      "title": "Инверсия словаря",
+      "description": "Дан словарь original = {'a': 1, 'b': 2, 'c': 3}. Создайте новый словарь inverted, где ключи и значения поменяны местами. Выведите inverted.",
+      "starter_code": "original = {'a': 1, 'b': 2, 'c': 3}\ninverted = {}\n# Поменяйте ключи и значения местами\nprint(inverted)\n",
+      "expected_output": "{1: 'a', 2: 'b', 3: 'c'}\n",
+      "hint": "Используйте for key, value in original.items(): inverted[value] = key"
+    }
+  ]
+}

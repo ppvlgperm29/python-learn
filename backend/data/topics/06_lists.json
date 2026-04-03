@@ -1,0 +1,150 @@
+{
+  "id": 6,
+  "slug": "lists",
+  "title": "Списки",
+  "description": "Главная структура данных Python: хранение наборов значений, индексы, срезы, методы и обход циклом",
+  "order": 6,
+  "sections": [
+    {
+      "type": "text",
+      "content": "Список — это упорядоченная коллекция значений. В отличие от строк, списки изменяемы: можно добавлять, удалять и менять элементы. Список может содержать данные любых типов — числа, строки, другие списки."
+    },
+
+    {
+      "type": "heading",
+      "content": "Создание и обращение к элементам"
+    },
+
+    {
+      "type": "code_example",
+      "title": "Создание списка и индексы",
+      "code": "# Создание списка\nfruits = ['яблоко', 'банан', 'вишня']\nnumbers = [1, 2, 3, 4, 5]\nmixed = [42, 'привет', True, 3.14]  # разные типы\nempty = []                           # пустой список\n\n# Обращение по индексу (так же как строки)\nprint(fruits[0])   # яблоко\nprint(fruits[-1])  # вишня\nprint(len(fruits)) # 3\n\n# Изменение элемента\nfruits[1] = 'апельсин'\nprint(fruits)  # ['яблоко', 'апельсин', 'вишня']\n\n# Срезы — тоже работают\nprint(numbers[1:4])   # [2, 3, 4]\nprint(numbers[::-1])  # [5, 4, 3, 2, 1]",
+      "explanation": "Индексы и срезы у списков работают точно так же, как у строк. Главное отличие: список изменяемый — elements[1] = 'новое' меняет элемент на месте, не создавая новый список."
+    },
+
+    {
+      "type": "heading",
+      "content": "Добавление и удаление элементов"
+    },
+
+    {
+      "type": "code_example",
+      "title": "Методы изменения списка",
+      "code": "fruits = ['яблоко', 'банан']\n\n# Добавить в конец\nfruits.append('вишня')\nprint(fruits)  # ['яблоко', 'банан', 'вишня']\n\n# Вставить по индексу\nfruits.insert(1, 'апельсин')\nprint(fruits)  # ['яблоко', 'апельсин', 'банан', 'вишня']\n\n# Удалить по значению\nfruits.remove('банан')\nprint(fruits)  # ['яблоко', 'апельсин', 'вишня']\n\n# Удалить по индексу и получить значение\nlast = fruits.pop()     # удаляет последний\nprint(last)    # вишня\nprint(fruits)  # ['яблоко', 'апельсин']\n\nfirst = fruits.pop(0)   # удаляет по индексу\nprint(first)   # яблоко",
+      "explanation": "append() — самый быстрый способ добавить элемент, всегда добавляет в конец. insert() работает медленнее: чтобы вставить в середину, Python сдвигает все элементы правее. pop() без аргумента удаляет последний — быстро. pop(0) — первый, медленнее."
+    },
+
+    {
+      "type": "code_example",
+      "title": "Сортировка и другие операции",
+      "code": "numbers = [3, 1, 4, 1, 5, 9, 2, 6]\n\n# Сортировка на месте (изменяет сам список)\nnumbers.sort()\nprint(numbers)   # [1, 1, 2, 3, 4, 5, 6, 9]\n\nnumbers.sort(reverse=True)\nprint(numbers)   # [9, 6, 5, 4, 3, 2, 1, 1]\n\n# sorted() — возвращает новый список, не меняет оригинал\noriginal = [3, 1, 4, 1, 5]\nsorted_new = sorted(original)\nprint(original)    # [3, 1, 4, 1, 5] — не изменился\nprint(sorted_new)  # [1, 1, 3, 4, 5]\n\n# Разворот, подсчёт, поиск\nletters = ['a', 'b', 'c']\nletters.reverse()\nprint(letters)            # ['c', 'b', 'a']\n\nnums = [1, 2, 3, 2, 1]\nprint(nums.count(2))      # 2 — сколько раз встречается\nprint(nums.index(3))      # 2 — индекс первого вхождения",
+      "explanation": "sort() изменяет список на месте и возвращает None. sorted() создаёт новый список. Если нужно сохранить оригинал — используйте sorted(). Если важна скорость и оригинал не нужен — sort()."
+    },
+
+    {
+      "type": "heading",
+      "content": "Обход списка циклом"
+    },
+
+    {
+      "type": "code_example",
+      "title": "Перебор элементов с for",
+      "code": "fruits = ['яблоко', 'банан', 'вишня']\n\n# Простой перебор\nfor fruit in fruits:\n    print(fruit)\n\n# С индексом через enumerate()\nfor i, fruit in enumerate(fruits):\n    print(f'{i}: {fruit}')\n# 0: яблоко\n# 1: банан\n# 2: вишня\n\n# enumerate с другим стартом\nfor i, fruit in enumerate(fruits, start=1):\n    print(f'{i}. {fruit}')\n# 1. яблоко\n# 2. банан\n# 3. вишня",
+      "explanation": "enumerate() — самый читаемый способ получить и индекс, и значение одновременно. Избегайте конструкции for i in range(len(fruits)): fruits[i] — в Python это считается плохим стилем."
+    },
+
+    {
+      "type": "code_example",
+      "title": "Встроенные функции для списков",
+      "code": "numbers = [4, 7, 2, 9, 1, 5, 8, 3, 6]\n\nprint(len(numbers))    # 9  — длина\nprint(sum(numbers))    # 45 — сумма\nprint(min(numbers))    # 1  — минимум\nprint(max(numbers))    # 9  — максимум\n\n# sorted() и reversed() — без изменения оригинала\nprint(sorted(numbers))            # [1, 2, 3, 4, 5, 6, 7, 8, 9]\nprint(list(reversed(numbers)))    # [6, 3, 8, 5, 1, 9, 2, 7, 4]\n\n# zip() — перебор двух списков параллельно\nnames = ['Анна', 'Иван', 'Мария']\nscores = [92, 78, 85]\n\nfor name, score in zip(names, scores):\n    print(f'{name}: {score}')\n\n# Объединение и копирование\na = [1, 2, 3]\nb = [4, 5, 6]\nprint(a + b)           # [1, 2, 3, 4, 5, 6]\n\ncopy = a[:]            # независимая копия\ncopy.append(99)\nprint(a)               # [1, 2, 3] — оригинал не изменился",
+      "explanation": "sum(), min(), max(), len() — встроенные функции, которые работают с любой коллекцией. reversed() возвращает итератор, поэтому для вывода нужно обернуть в list(). zip() останавливается на более коротком списке."
+    },
+
+    {
+      "type": "heading",
+      "content": "List comprehension — компактное создание списков"
+    },
+
+    {
+      "type": "code_example",
+      "title": "List comprehension — однострочное создание списка",
+      "code": "# Обычный способ — цикл с append\nsquares = []\nfor i in range(1, 6):\n    squares.append(i ** 2)\nprint(squares)   # [1, 4, 9, 16, 25]\n\n# То же самое через list comprehension\nsquares = [i ** 2 for i in range(1, 6)]\nprint(squares)   # [1, 4, 9, 16, 25]\n\n# С условием — только чётные квадраты\neven_squares = [i ** 2 for i in range(1, 11) if i % 2 == 0]\nprint(even_squares)  # [4, 16, 36, 64, 100]\n\n# Работа со строками\nwords = ['hello', 'world', 'python']\nupper = [w.upper() for w in words]\nprint(upper)   # ['HELLO', 'WORLD', 'PYTHON']\n\nlengths = [len(w) for w in words]\nprint(lengths)  # [5, 5, 6]",
+      "explanation": "List comprehension читается как: 'создай список из [выражение] для каждого [элемент] в [коллекция] если [условие]'. Это питонический способ создания списков — короче и нагляднее, чем цикл с append. Условие if необязательно."
+    },
+
+    {
+      "type": "note",
+      "content": "Проверить вхождение элемента в список: if 'банан' in fruits. Объединить два списка: a + b или a.extend(b). Скопировать: copy = fruits[:] или copy = fruits.copy(). Простое copy = fruits — это не копия, а второй указатель на тот же список."
+    },
+
+    {
+      "type": "heading",
+      "content": "Вложенные списки"
+    },
+
+    {
+      "type": "code_example",
+      "title": "Список списков — двумерные данные",
+      "code": "# Матрица 3x3\nmatrix = [\n    [1, 2, 3],\n    [4, 5, 6],\n    [7, 8, 9]\n]\n\n# Обращение к элементу: matrix[строка][столбец]\nprint(matrix[0][0])  # 1 — левый верхний\nprint(matrix[1][1])  # 5 — центр\nprint(matrix[2][2])  # 9 — правый нижний\n\n# Обход вложенного списка\nfor row in matrix:\n    for num in row:\n        print(num, end=' ')\n    print()  # перевод строки",
+      "explanation": "matrix[1][2] — сначала берём элемент с индексом 1 (это список [4,5,6]), затем берём его элемент с индексом 2 (это 6). Вложенные списки используются для таблиц, матриц, сетки в играх."
+    },
+
+    {
+      "type": "hood",
+      "title": "Как список хранится в памяти",
+      "content": "Список в Python — это не набор значений, стоящих рядом в памяти. Это набор указателей — каждый элемент списка хранит адрес настоящего значения, а не само значение. Поэтому в один список можно смешивать числа, строки и всё что угодно — ведь хранятся только адреса, а сами объекты могут быть где угодно. Отсюда же следует важное следствие: когда вы пишете b = a, вы копируете не список, а только адрес — оба имени смотрят на один и тот же набор указателей. Чтобы получить независимую копию, нужно скопировать сам список: b = a[:]."
+    }
+  ],
+  "tasks": [
+    {
+      "id": "lists_1",
+      "order": 1,
+      "difficulty": "easy",
+      "title": "Первый и последний",
+      "description": "Дан список numbers = [10, 20, 30, 40, 50]. Выведите первый элемент, последний элемент и длину списка — каждый на отдельной строке.",
+      "starter_code": "numbers = [10, 20, 30, 40, 50]\n# Выведите первый элемент, последний и длину\n",
+      "expected_output": "10\n50\n5\n",
+      "hint": "numbers[0], numbers[-1], len(numbers)"
+    },
+    {
+      "id": "lists_2",
+      "order": 2,
+      "difficulty": "easy",
+      "title": "Добавление и удаление",
+      "description": "Дан список items = ['a', 'b', 'c']. Добавьте в конец 'd', затем удалите первый элемент через pop(0). Выведите итоговый список.",
+      "starter_code": "items = ['a', 'b', 'c']\n# Добавьте 'd' и удалите первый элемент\nprint(items)\n",
+      "expected_output": "['b', 'c', 'd']\n",
+      "hint": "items.append('d'), затем items.pop(0)"
+    },
+    {
+      "id": "lists_3",
+      "order": 3,
+      "difficulty": "medium",
+      "title": "Сумма и максимум",
+      "description": "Дан список nums = [4, 7, 2, 9, 1, 5]. Выведите сумму всех элементов и максимальный элемент — каждый на отдельной строке.",
+      "starter_code": "nums = [4, 7, 2, 9, 1, 5]\n# Выведите сумму и максимум\n",
+      "expected_output": "28\n9\n",
+      "hint": "Встроенные функции sum() и max()"
+    },
+    {
+      "id": "lists_4",
+      "order": 4,
+      "difficulty": "medium",
+      "title": "Фильтрация",
+      "description": "Дан список numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]. Создайте новый список, содержащий только чётные числа. Выведите его.",
+      "starter_code": "numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\nevens = []\n# Добавьте в evens только чётные числа\nprint(evens)\n",
+      "expected_output": "[2, 4, 6, 8, 10]\n",
+      "hint": "Используйте цикл for и условие if num % 2 == 0: evens.append(num)"
+    },
+    {
+      "id": "lists_5",
+      "order": 5,
+      "difficulty": "hard",
+      "title": "Уникальные элементы",
+      "description": "Дан список words = ['python', 'java', 'python', 'c++', 'java', 'python']. Создайте список unique, содержащий только уникальные элементы в порядке первого появления. Выведите его.",
+      "starter_code": "words = ['python', 'java', 'python', 'c++', 'java', 'python']\nunique = []\n# Добавьте в unique только уникальные элементы\nprint(unique)\n",
+      "expected_output": "['python', 'java', 'c++']",
+      "hint": "Используйте цикл и проверку: if word not in unique: unique.append(word)"
+    }
+  ]
+}

@@ -1,0 +1,145 @@
+{
+  "id": 4,
+  "slug": "functions",
+  "title": "Функции",
+  "description": "Как создавать переиспользуемые блоки кода, передавать данные через параметры, возвращать результаты и понимать область видимости",
+  "order": 4,
+  "sections": [
+    {
+      "type": "text",
+      "content": "Функция — это именованный блок кода, который можно вызывать сколько угодно раз. Вместо того чтобы повторять одно и то же в разных местах программы, вы описываете действие один раз — и используете его везде, где оно нужно."
+    },
+
+    {
+      "type": "heading",
+      "content": "Объявление и вызов функций"
+    },
+
+    {
+      "type": "code_example",
+      "title": "def — объявление функции",
+      "code": "# Объявление функции\ndef greet():\n    print('Привет!')\n\n# Вызов функции — просто имя и скобки\ngreet()   # Привет!\ngreet()   # Привет!\n\n# Функция с параметром\ndef greet_user(name):\n    print(f'Привет, {name}!')\n\ngreet_user('Иван')    # Привет, Иван!\ngreet_user('Мария')   # Привет, Мария!",
+      "explanation": "def — ключевое слово для объявления функции. После него — имя, скобки с параметрами и двоеточие. Тело функции пишется с отступом 4 пробела. Само по себе объявление ничего не выполняет — код запускается только при вызове функции (имя + скобки)."
+    },
+
+    {
+      "type": "heading",
+      "content": "Параметры и аргументы"
+    },
+
+    {
+      "type": "code_example",
+      "title": "Несколько параметров и значения по умолчанию",
+      "code": "# Несколько параметров\ndef add(a, b):\n    return a + b\n\nprint(add(3, 5))   # 8\nprint(add(10, 2))  # 12\n\n# Значения по умолчанию\ndef greet(name, greeting='Привет'):\n    print(f'{greeting}, {name}!')\n\ngreet('Иван')                 # Привет, Иван!\ngreet('Мария', 'Здравствуй')  # Здравствуй, Мария!\n\n# Именованные аргументы — порядок не важен\ndef describe(name, age, city):\n    print(f'{name}, {age} лет, {city}')\n\ndescribe('Анна', city='Москва', age=25)  # Анна, 25 лет, Москва",
+      "explanation": "Параметры со значениями по умолчанию должны стоять после обязательных. Именованные аргументы (keyword arguments) позволяют передавать их в любом порядке — удобно, когда параметров много."
+    },
+
+    {
+      "type": "heading",
+      "content": "Возврат значений"
+    },
+
+    {
+      "type": "code_example",
+      "title": "return — возврат результата",
+      "code": "def square(n):\n    return n * n\n\nresult = square(5)\nprint(result)                    # 25\nprint(square(3) + square(4))     # 9 + 16 = 25\n\n# Функция без return возвращает None\ndef say_hi():\n    print('Hi')\n\nx = say_hi()   # Hi\nprint(x)       # None\n\n# return прерывает функцию немедленно\ndef classify(n):\n    if n < 0:\n        return 'отрицательное'\n    if n == 0:\n        return 'ноль'\n    return 'положительное'\n\nprint(classify(-5))  # отрицательное\nprint(classify(0))   # ноль\nprint(classify(7))   # положительное",
+      "explanation": "return немедленно завершает функцию и возвращает значение. В функции может быть несколько return — каждый срабатывает при своём условии. Функция без явного return возвращает None."
+    },
+
+    {
+      "type": "note",
+      "content": "Хорошая функция делает одну вещь. Если функция называется calculate_tax — она должна считать налог, а не печатать результат и обновлять базу данных заодно. Принцип: одна функция — одна задача."
+    },
+
+    {
+      "type": "heading",
+      "content": "Область видимости переменных"
+    },
+
+    {
+      "type": "code_example",
+      "title": "Локальные и глобальные переменные",
+      "code": "x = 10  # глобальная переменная\n\ndef show():\n    y = 20  # локальная — живёт только внутри функции\n    print(x)  # читать глобальную — можно\n    print(y)\n\nshow()   # 10  20\n# print(y)  # ошибка: y не существует снаружи\n\n# Изменить глобальную внутри функции — нужен global\ncount = 0\n\ndef increment():\n    global count\n    count += 1\n\nincrement()\nincrement()\nprint(count)  # 2",
+      "explanation": "Переменные, созданные внутри функции, живут только пока функция выполняется. После возврата они исчезают. global нужен редко — обычно лучше передавать значение через параметры и возвращать через return."
+    },
+
+    {
+      "type": "code_example",
+      "title": "*args и **kwargs — переменное число аргументов",
+      "code": "# *args — принимает любое количество позиционных аргументов\ndef total(*args):\n    result = 0\n    for n in args:\n        result += n\n    return result\n\nprint(total(1, 2, 3))        # 6\nprint(total(10, 20, 30, 40)) # 100\nprint(total())               # 0\n\n# **kwargs — принимает именованные аргументы в виде словаря\ndef show_info(**kwargs):\n    for key, value in kwargs.items():\n        print(f'{key}: {value}')\n\nshow_info(name='Иван', age=30, city='Москва')\n# name: Иван\n# age: 30\n# city: Москва\n\n# Можно комбинировать\ndef mixed(x, *args, **kwargs):\n    print(f'x={x}, args={args}, kwargs={kwargs}')\n\nmixed(1, 2, 3, name='Анна')  # x=1, args=(2, 3), kwargs={'name': 'Анна'}",
+      "explanation": "*args собирает лишние позиционные аргументы в кортеж. **kwargs собирает лишние именованные аргументы в словарь. Звёздочки в именах условны — важны именно * и **. Это особенно удобно когда заранее неизвестно, сколько аргументов передаст пользователь."
+    },
+
+    {
+      "type": "code_example",
+      "title": "Лямбда-функции — функции в одну строку",
+      "code": "# Обычная функция\ndef square(n):\n    return n * n\n\n# То же самое как лямбда\nsquare = lambda n: n * n\nprint(square(5))  # 25\n\n# Лямбда с несколькими параметрами\nadd = lambda a, b: a + b\nprint(add(3, 4))  # 7\n\n# Главное применение — передача функции как аргумента\nnumbers = [5, 2, 8, 1, 9, 3]\nnumbers.sort(key=lambda x: x)         # сортировка по значению\nprint(numbers)   # [1, 2, 3, 5, 8, 9]\n\nwords = ['банан', 'яблоко', 'вишня', 'абрикос']\nwords.sort(key=lambda w: len(w))      # сортировка по длине слова\nprint(words)     # ['банан', 'вишня', 'яблоко', 'абрикос']",
+      "explanation": "Лямбда — это анонимная функция: def без имени и без return (результат выражения возвращается автоматически). Используйте лямбду только для простых однострочных выражений — для сложной логики всегда лучше обычная функция."
+    },
+
+    {
+      "type": "hood",
+      "title": "Что происходит, когда вы вызываете функцию",
+      "content": "Когда Python вызывает функцию, он создаёт для неё отдельное рабочее пространство — как если бы открыл новый блокнот и записал в него все переменные этой функции. Параметры записываются первыми. Пока функция работает, у неё есть свой блокнот и доступ к общему (глобальному). Когда функция заканчивается — блокнот закрывается и выбрасывается. Именно поэтому переменные внутри функции не видны снаружи: их блокнот уже выброшен."
+    },
+
+    {
+      "type": "code_example",
+      "title": "Функции вызывают другие функции",
+      "code": "def multiply(a, b):\n    return a * b\n\ndef square(n):\n    return multiply(n, n)\n\ndef sum_of_squares(x, y):\n    return square(x) + square(y)\n\nprint(sum_of_squares(3, 4))  # 25\n\n# Порядок выполнения:\n# 1. sum_of_squares(3, 4) запускается\n# 2. square(3) → multiply(3, 3) → 9\n# 3. square(4) → multiply(4, 4) → 16\n# 4. sum_of_squares возвращает 9 + 16 = 25\n\n# Рекурсия — функция вызывает сама себя\ndef factorial(n):\n    if n == 0:\n        return 1\n    return n * factorial(n - 1)\n\nprint(factorial(5))  # 120  (5*4*3*2*1)",
+      "explanation": "Функции могут вызывать другие функции, в том числе самих себя (рекурсия). Python держит стек вызовов — список того, что сейчас выполняется. Когда функция завершается, Python возвращается к тому месту, откуда она была вызвана."
+    }
+  ],
+  "tasks": [
+    {
+      "id": "functions_1",
+      "order": 1,
+      "difficulty": "easy",
+      "title": "Функция приветствия",
+      "description": "Напишите функцию greet(name), которая принимает имя и выводит 'Привет, [name]!'. Вызовите её с аргументом 'Python'.",
+      "starter_code": "def greet(name):\n    pass  # ваш код\n\ngreet('Python')\n",
+      "expected_output": "Привет, Python!\n",
+      "hint": "Внутри функции: print(f'Привет, {name}!')"
+    },
+    {
+      "id": "functions_2",
+      "order": 2,
+      "difficulty": "easy",
+      "title": "Квадрат числа",
+      "description": "Напишите функцию square(n), которая возвращает квадрат числа. Выведите square(3), square(7), square(10).",
+      "starter_code": "def square(n):\n    pass  # ваш код\n\nprint(square(3))\nprint(square(7))\nprint(square(10))\n",
+      "expected_output": "9\n49\n100\n",
+      "hint": "Используйте return n * n"
+    },
+    {
+      "id": "functions_3",
+      "order": 3,
+      "difficulty": "medium",
+      "title": "Максимум трёх чисел",
+      "description": "Напишите функцию max3(a, b, c), которая возвращает наибольшее из трёх чисел. Выведите max3(4, 9, 2).",
+      "starter_code": "def max3(a, b, c):\n    pass  # ваш код\n\nprint(max3(4, 9, 2))\n",
+      "expected_output": "9\n",
+      "hint": "Используйте if/elif/else для сравнения трёх чисел"
+    },
+    {
+      "id": "functions_4",
+      "order": 4,
+      "difficulty": "medium",
+      "title": "Степень с умолчанием",
+      "description": "Напишите функцию power(base, exp=2), которая возвращает base в степени exp. По умолчанию — квадрат. Выведите power(3), power(2, 10), power(5, 3).",
+      "starter_code": "def power(base, exp=2):\n    pass  # ваш код\n\nprint(power(3))\nprint(power(2, 10))\nprint(power(5, 3))\n",
+      "expected_output": "9\n1024\n125\n",
+      "hint": "Используйте return base ** exp"
+    },
+    {
+      "id": "functions_5",
+      "order": 5,
+      "difficulty": "hard",
+      "title": "Рекурсия: факториал",
+      "description": "Напишите рекурсивную функцию factorial(n), которая вычисляет n! Базовый случай: factorial(0) = 1. Рекурсивный шаг: n * factorial(n-1). Выведите factorial(5).",
+      "starter_code": "def factorial(n):\n    pass  # ваш код\n\nprint(factorial(5))\n",
+      "expected_output": "120\n",
+      "hint": "if n == 0: return 1. Иначе: return n * factorial(n - 1)"
+    }
+  ]
+}
