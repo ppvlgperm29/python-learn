@@ -149,18 +149,23 @@
   padding: 16px 20px 20px;
 }
 
-/* ── Responsive ──────────────────────────────────────── */
-@media (max-width: 600px) {
-  .tasks-section { margin-top: 44px; }
+/* ── Mobile base ─────────────────────────────────────── */
+.tasks-section { margin-top: 44px; }
+.task-card__header { padding: 12px 14px; gap: 8px; }
+.task-card__editor-wrap { padding: 12px 14px 16px; }
+.task-card__desc { padding: 12px 14px; }
+.editor-toolbar { gap: 6px; flex-wrap: wrap; }
+.btn { padding: 6px 12px; font-size: 0.8rem; }
+.progress-wrap { padding: 10px 14px; }
 
-  .task-card__header { padding: 12px 14px; gap: 8px; }
-  .task-card__editor-wrap { padding: 12px 14px 16px; }
-  .task-card__desc { padding: 12px 14px; }
-
-  .editor-toolbar { gap: 6px; }
-  .btn { padding: 6px 12px; font-size: 0.8rem; }
-
-  .progress-wrap { padding: 10px 14px; }
+/* ── Desktop ─────────────────────────────────────────── */
+@media (min-width: 901px) {
+  .tasks-section { margin-top: 64px; }
+  .task-card__header { padding: 15px 20px; gap: 12px; }
+  .task-card__editor-wrap { padding: 16px 20px 20px; }
+  .task-card__desc { padding: 16px 20px; }
+  .btn { padding: 7px 15px; font-size: 0.83rem; }
+  .progress-wrap { padding: 12px 18px; }
 }
 
 /* ── CodeMirror ───────────────────────────────────────── */

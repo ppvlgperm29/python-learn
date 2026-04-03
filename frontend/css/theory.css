@@ -272,24 +272,36 @@
   margin-left: auto;
 }
 
-/* ── Responsive ──────────────────────────────────────── */
-@media (max-width: 900px) {
-  .content-inner { max-width: 100%; }
+/* ── Mobile base ─────────────────────────────────────── */
+.topic-header__title { font-size: 1.35rem; }
+.topic-header__desc { font-size: 0.9rem; }
 
+.code-block__pre { padding: 14px; }
+.code-block__pre code { font-size: 0.8rem; }
+.code-block__header { padding: 7px 12px; }
+
+.topic-nav { flex-direction: column; gap: 10px; }
+.topic-nav__btn { max-width: 100%; }
+.topic-nav__btn--next { margin-left: 0; }
+
+/* ── Tablet ──────────────────────────────────────────── */
+@media (min-width: 601px) {
   .topic-header__title { font-size: 1.6rem; }
+  .topic-header__desc { font-size: 0.95rem; }
 
-  .topic-nav { flex-direction: column; gap: 10px; }
-  .topic-nav__btn { max-width: 100%; }
-  .topic-nav__btn--next { margin-left: 0; }
+  .code-block__pre { padding: 18px 20px; }
+  .code-block__pre code { font-size: 0.875rem; }
 }
 
-@media (max-width: 600px) {
-  .topic-header__title { font-size: 1.35rem; }
-  .topic-header__desc { font-size: 0.9rem; }
+/* ── Desktop ─────────────────────────────────────────── */
+@media (min-width: 901px) {
+  .content-inner { max-width: var(--content-max); }
+  .topic-header__title { font-size: 2rem; }
+  .topic-header__desc { font-size: 1rem; }
 
-  .code-block__pre { padding: 14px 14px; }
-  .code-block__pre code { font-size: 0.8rem; }
-  .code-block__header { padding: 7px 12px; }
+  .topic-nav { flex-direction: row; }
+  .topic-nav__btn { max-width: 48%; }
+  .topic-nav__btn--next { margin-left: auto; }
 }
 
 /* ── Terminal variant ─────────────────────────────────── */

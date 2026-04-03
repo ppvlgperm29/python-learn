@@ -21,9 +21,11 @@ a:hover { text-decoration: underline; }
 
 .main-content {
   flex: 1;
-  margin-left: var(--sidebar-width);
-  padding: 52px 64px 96px;
+  margin-left: 0;
+  padding: 68px 16px 56px;
   min-width: 0;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .content-inner {
@@ -243,25 +245,34 @@ a:hover { text-decoration: underline; }
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* ── Responsive ───────────────────────────────────────── */
-@media (max-width: 900px) {
+/* ── Desktop ──────────────────────────────────────────── */
+@media (min-width: 901px) {
   .main-content {
-    margin-left: 0;
-    padding: 72px 24px 64px;
+    margin-left: var(--sidebar-width);
+    padding: 52px 64px 96px;
   }
+
+  .page-title { font-size: 2rem; }
+  .page-subtitle { font-size: 1rem; }
 }
 
-@media (max-width: 600px) {
+/* ── Tablet ───────────────────────────────────────────── */
+@media (min-width: 601px) and (max-width: 900px) {
   .main-content {
-    padding: 68px 16px 56px;
+    padding: 72px 32px 64px;
   }
 
-  .page-title { font-size: 1.5rem; }
+  .page-title { font-size: 1.7rem; }
+}
+
+/* ── Mobile ───────────────────────────────────────────── */
+@media (max-width: 600px) {
+  .page-title { font-size: 1.4rem; }
   .page-subtitle { font-size: 0.9rem; }
 
   .topic-card { gap: 12px; padding: 18px 0; }
   .topic-card__number { width: 28px; height: 28px; font-size: 0.7rem; }
-  .topic-card__title { font-size: 1rem; }
+  .topic-card__title { font-size: 0.95rem; }
   .topic-card__desc { font-size: 0.85rem; }
 
   .overall-progress { flex-direction: column; align-items: flex-start; gap: 8px; }

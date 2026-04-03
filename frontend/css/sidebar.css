@@ -1,5 +1,5 @@
 .sidebar {
-  width: var(--sidebar-width);
+  width: min(var(--sidebar-width), 85vw);
   background: var(--surface-2);
   border-right: 1px solid var(--border);
   position: fixed;
@@ -9,6 +9,9 @@
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+  transform: translateX(-100%);
+  transition: transform 0.25s ease;
+  z-index: 160;
 }
 
 /* ── Logo ─────────────────────────────────────────────── */
@@ -146,7 +149,7 @@
 
 /* ── Mobile header ────────────────────────────────────── */
 .mobile-header {
-  display: none;
+  display: flex;
   position: fixed;
   top: 0;
   left: 0;
@@ -201,15 +204,15 @@
 
 .sidebar-overlay.active { display: block; }
 
-/* ── Responsive ───────────────────────────────────────── */
-@media (max-width: 900px) {
-  .mobile-header { display: flex; }
+/* ── Desktop: show sidebar permanently ────────────────── */
+@media (min-width: 901px) {
+  .mobile-header { display: none; }
 
   .sidebar {
-    transform: translateX(-100%);
-    transition: transform 0.25s ease;
-    z-index: 160;
+    transform: translateX(0);
+    transition: none;
   }
-
-  .sidebar.open { transform: translateX(0); }
 }
+
+/* ── Mobile/Tablet ────────────────────────────────────── */
+.sidebar.open { transform: translateX(0); }
