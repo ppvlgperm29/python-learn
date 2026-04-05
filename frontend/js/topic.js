@@ -10,7 +10,10 @@ function getSolvedSet(slug) {
 function markSolved(slug, taskId) {
   const set = getSolvedSet(slug);
   set.add(taskId);
-  localStorage.setItem(`solved_${slug}`, JSON.stringify([...set]));
+  const tasks = [...set];
+  localStorage.setItem(`solved_${slug}`, JSON.stringify(tasks));
+  // Sync to server if logged in (non-blocking)
+  if (getToken()) API.saveTopicProgress(slug, tasks).catch(() => {});
 }
 
 // ─── Sidebar ─────────────────────────────────────────────

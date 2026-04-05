@@ -258,3 +258,14 @@
 }
 
 .auth-widget__login:hover { text-decoration: underline; }
+
+.auth-widget--guest {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+}
+
+.auth-widget__hint {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}

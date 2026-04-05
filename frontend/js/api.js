@@ -55,10 +55,11 @@ function renderAuthWidget() {
       </div>`;
   } else {
     footer.innerHTML = `
-      <div class="auth-widget">
+      <div class="auth-widget auth-widget--guest">
         <a class="auth-widget__login" href="/auth.html?next=${encodeURIComponent(location.pathname)}">
-          Войти / Регистрация
+          Войти
         </a>
+        <span class="auth-widget__hint">— чтобы сохранять прогресс</span>
       </div>`;
   }
 }

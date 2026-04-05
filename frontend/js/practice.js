@@ -17,6 +17,8 @@ function markChallengesSolved(id) {
   const set = getSolvedIds();
   set.add(id);
   localStorage.setItem('practice_solved', JSON.stringify([...set]));
+  // Sync to server if logged in (non-blocking)
+  if (getToken()) API.markChallengeSolved(id).catch(() => {});
 }
 
 // ── Sidebar ───────────────────────────────────────────────
