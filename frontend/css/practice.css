@@ -472,6 +472,67 @@
 .test-case__exp   { color: var(--success); }
 .test-case__err   { color: var(--error); }
 
+/* ── Timer ────────────────────────────────────────────── */
+.timer-display {
+  margin-left: auto;
+  font-size: 0.8rem;
+  font-family: var(--font-mono);
+  color: var(--text-muted);
+  background: var(--surface-3);
+  padding: 3px 10px;
+  border-radius: var(--radius-xs);
+  border: 1px solid var(--border);
+  min-width: 44px;
+  text-align: center;
+}
+
+/* ── Solution panel ───────────────────────────────────── */
+.btn-show-solution {
+  margin-left: 12px;
+  padding: 3px 10px;
+  font-size: 0.78rem;
+  font-family: var(--font-ui);
+  border: 1px solid var(--easy-border);
+  border-radius: var(--radius-xs);
+  background: none;
+  color: var(--easy);
+  cursor: pointer;
+  transition: background var(--transition);
+}
+
+.btn-show-solution:hover {
+  background: var(--easy-bg);
+}
+
+.solution-panel {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.solution-panel__header {
+  padding: 7px 14px;
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border);
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.solution-panel__code {
+  background: var(--code-bg);
+  padding: 14px;
+  font-family: var(--font-mono);
+  font-size: 0.83rem;
+  line-height: 1.65;
+  color: var(--text);
+  white-space: pre;
+  overflow-x: auto;
+}
+
 /* ── Practice nav item in sidebar ─────────────────────── */
 .nav-item--practice .nav-item__num {
   font-size: 0.85rem;

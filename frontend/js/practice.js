@@ -8,6 +8,8 @@ let cmEditor = null;
 let activeFilter = 'all';
 let activeCategory = 'all';
 let searchQuery = '';
+let timerInterval = null;
+let timerSeconds = 0;
 
 // ── LocalStorage helpers ──────────────────────────────────
 function getSolvedIds() {
@@ -144,6 +146,29 @@ function renderList(challenges) {
   }).join('');
 }
 
+// ── Timer ─────────────────────────────────────────────────
+function startTimer() {
+  stopTimer();
+  timerSeconds = 0;
+  updateTimerDisplay();
+  timerInterval = setInterval(() => {
+    timerSeconds++;
+    updateTimerDisplay();
+  }, 1000);
+}
+
+function stopTimer() {
+  if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+}
+
+function updateTimerDisplay() {
+  const el = document.getElementById('timer-display');
+  if (!el) return;
+  const m = Math.floor(timerSeconds / 60);
+  const s = timerSeconds % 60;
+  el.textContent = `${m}:${String(s).padStart(2, '0')}`;
+}
+
 // ── Open / close detail ───────────────────────────────────
 function openChallenge(id) {
   const challenge = allChallenges.find(c => String(c.id) === String(id));
@@ -191,6 +216,11 @@ function openChallenge(id) {
   document.getElementById('hint-box').textContent = '';
   document.getElementById('output-panel').style.display = 'none';
   document.getElementById('test-results').style.display = 'none';
+  document.getElementById('solution-panel').style.display = 'none';
+  document.getElementById('solution-code').textContent = '';
+
+  // Start timer
+  startTimer();
 
   // Solved banner
   const banner = document.getElementById('solved-banner');
@@ -201,6 +231,7 @@ function openChallenge(id) {
 }
 
 function showList() {
+  stopTimer();
   document.getElementById('view-list').style.display = 'block';
   document.getElementById('view-detail').style.display = 'none';
   currentChallenge = null;
@@ -299,10 +330,10 @@ function setupButtons() {
       }).join('');
 
       if (allPass) {
+        stopTimer();
         markChallengesSolved(currentChallenge.id);
         document.getElementById('solved-banner').classList.add('visible');
         updatePracticeBadge();
-        // Update row in list (for when user goes back)
       }
     }
 
@@ -325,6 +356,27 @@ function setupButtons() {
     document.getElementById('output-panel').style.display = 'none';
     document.getElementById('test-results').style.display = 'none';
     document.getElementById('hint-box').classList.remove('visible');
+  });
+
+  // Show solution
+  document.getElementById('btn-show-solution').addEventListener('click', () => {
+    if (!currentChallenge) return;
+    const panel = document.getElementById('solution-panel');
+    const code = document.getElementById('solution-code');
+    if (panel.style.display === 'none') {
+      const sol = currentChallenge.solution;
+      if (sol) {
+        code.textContent = sol;
+        panel.style.display = 'block';
+      } else {
+        code.textContent = '# Эталонное решение для этой задачи пока не добавлено.';
+        panel.style.display = 'block';
+      }
+      document.getElementById('btn-show-solution').textContent = 'Скрыть решение';
+    } else {
+      panel.style.display = 'none';
+      document.getElementById('btn-show-solution').textContent = 'Показать решение';
+    }
   });
 }
 

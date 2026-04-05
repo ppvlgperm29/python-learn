@@ -7,10 +7,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/variables.css?v=5">
-  <link rel="stylesheet" href="/css/animations.css?v=5">
-  <link rel="stylesheet" href="/css/main.css?v=5">
-  <link rel="stylesheet" href="/css/sidebar.css?v=5">
+  <link rel="stylesheet" href="/css/variables.css?v=6">
+  <link rel="stylesheet" href="/css/animations.css?v=6">
+  <link rel="stylesheet" href="/css/main.css?v=6">
+  <link rel="stylesheet" href="/css/sidebar.css?v=6">
 </head>
 <body>
   <div class="mobile-header">
@@ -46,7 +46,7 @@
         <div class="sidebar__section-label">Темы</div>
         <div id="sidebar-nav"></div>
       </nav>
-      <div class="sidebar__footer" id="sidebar-footer">12 тем · для начинающих</div>
+      <div class="sidebar__footer" id="sidebar-footer"><span>12 тем · для начинающих</span><button class="theme-toggle" id="theme-toggle-btn" onclick="toggleTheme()">☾ Тёмная</button></div>
     </aside>
 
     <main class="main-content">
@@ -66,8 +66,9 @@
     </main>
   </div>
 
-  <script src="/js/api.js?v=5"></script>
-  <script src="/js/index.js?v=5"></script>
+  <script src="/js/theme.js?v=6"></script>
+  <script src="/js/api.js?v=6"></script>
+  <script src="/js/index.js?v=6"></script>
   <script>
     function toggleSidebar() {
       document.querySelector('.sidebar').classList.toggle('open');

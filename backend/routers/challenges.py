@@ -19,6 +19,7 @@ def _serialize(c: Challenge) -> dict:
         "description": c.description,
         "starter_code": c.starter_code,
         "hint": c.hint,
+        "solution": c.solution,
         "tests": [
             {"args": t.args, "expected": t.expected, "label": t.label}
             for t in c.test_cases

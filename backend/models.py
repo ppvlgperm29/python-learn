@@ -29,6 +29,7 @@ class Challenge(Base):
     description = Column(Text, nullable=False)
     starter_code = Column(Text, nullable=False)
     hint = Column(Text, nullable=True)
+    solution = Column(Text, nullable=True)
 
     test_cases = relationship("TestCase", back_populates="challenge", order_by="TestCase.id")
 

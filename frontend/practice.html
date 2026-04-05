@@ -11,12 +11,12 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/eclipse.min.css">
 
-  <link rel="stylesheet" href="/css/variables.css?v=5">
-  <link rel="stylesheet" href="/css/animations.css?v=5">
-  <link rel="stylesheet" href="/css/main.css?v=5">
-  <link rel="stylesheet" href="/css/sidebar.css?v=5">
-  <link rel="stylesheet" href="/css/tasks.css?v=5">
-  <link rel="stylesheet" href="/css/practice.css?v=5">
+  <link rel="stylesheet" href="/css/variables.css?v=6">
+  <link rel="stylesheet" href="/css/animations.css?v=6">
+  <link rel="stylesheet" href="/css/main.css?v=6">
+  <link rel="stylesheet" href="/css/sidebar.css?v=6">
+  <link rel="stylesheet" href="/css/tasks.css?v=6">
+  <link rel="stylesheet" href="/css/practice.css?v=6">
 </head>
 <body>
   <div class="mobile-header">
@@ -52,7 +52,7 @@
         <div class="sidebar__section-label">Темы</div>
         <div id="sidebar-nav"></div>
       </nav>
-      <div class="sidebar__footer" id="sidebar-footer">12 тем · для начинающих</div>
+      <div class="sidebar__footer" id="sidebar-footer"><span>12 тем · для начинающих</span><button class="theme-toggle" id="theme-toggle-btn" onclick="toggleTheme()">☾ Тёмная</button></div>
     </aside>
 
     <main class="main-content main-content--practice">
@@ -104,11 +104,19 @@
               <button class="btn btn-check" id="btn-check">✓ Проверить</button>
               <button class="btn btn-hint" id="btn-hint">? Подсказка</button>
               <button class="btn btn-reset" id="btn-reset">↺ Сбросить</button>
+              <span class="timer-display" id="timer-display">0:00</span>
             </div>
             <div class="editor-pane__body">
               <div id="cm-container"></div>
               <div class="hint-box" id="hint-box"></div>
-              <div class="prob-solved-banner" id="solved-banner">✓ Задача решена! Все тесты прошли.</div>
+              <div class="prob-solved-banner" id="solved-banner">
+                ✓ Задача решена! Все тесты прошли.
+                <button class="btn-show-solution" id="btn-show-solution">Показать решение</button>
+              </div>
+              <div class="solution-panel" id="solution-panel" style="display:none">
+                <div class="solution-panel__header">Эталонное решение</div>
+                <pre class="solution-panel__code" id="solution-code"></pre>
+              </div>
               <div class="output-panel" id="output-panel" style="display:none">
                 <div class="output-panel__header">
                   <span class="output-panel__label">Вывод</span>
@@ -135,9 +143,10 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
 
-  <script src="/js/api.js?v=5"></script>
-  <script src="/js/pyodide-runner.js?v=5"></script>
-  <script src="/js/practice.js?v=5"></script>
+  <script src="/js/theme.js?v=6"></script>
+  <script src="/js/api.js?v=6"></script>
+  <script src="/js/pyodide-runner.js?v=6"></script>
+  <script src="/js/practice.js?v=6"></script>
   <script>
     function toggleSidebar() {
       document.querySelector('.sidebar').classList.toggle('open');

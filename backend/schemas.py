@@ -65,6 +65,7 @@ class ChallengeSchema(BaseModel):
     description: str
     starter_code: str
     hint: Optional[str] = None
+    solution: Optional[str] = None
     tests: list[TestCaseSchema] = []
 
     class Config:
