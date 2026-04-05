@@ -351,6 +351,9 @@ function escJs(s) {
 
 // ─── Init ─────────────────────────────────────────────────
 async function init() {
+  renderAuthWidget();
+  await loadServerProgress();
+
   const params = new URLSearchParams(location.search);
   const slug = params.get('slug');
   if (!slug) { location.href = '/'; return; }

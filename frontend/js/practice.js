@@ -310,6 +310,8 @@ function setupFilters() {
 
 // ── Init ──────────────────────────────────────────────────
 async function init() {
+  renderAuthWidget();
+  await loadServerProgress();
   setupFilters();
   setupButtons();
 
