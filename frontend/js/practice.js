@@ -114,7 +114,7 @@ function renderList(challenges) {
 
 // ── Open / close detail ───────────────────────────────────
 function openChallenge(id) {
-  const challenge = allChallenges.find(c => c.id === id);
+  const challenge = allChallenges.find(c => String(c.id) === String(id));
   if (!challenge) return;
   currentChallenge = challenge;
 
