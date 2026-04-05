@@ -47,21 +47,26 @@ function renderAuthWidget() {
   const token = getToken();
   const username = localStorage.getItem('auth_username');
 
+  const themeBtn = `<button class="theme-toggle" id="theme-toggle-btn" onclick="toggleTheme()">☾</button>`;
+
   if (token && username) {
     footer.innerHTML = `
       <div class="auth-widget">
         <span class="auth-widget__name">👤 ${escHtmlBasic(username)}</span>
         <button class="auth-widget__logout" onclick="logOut()">Выйти</button>
+        ${themeBtn}
       </div>`;
   } else {
     footer.innerHTML = `
       <div class="auth-widget auth-widget--guest">
-        <a class="auth-widget__login" href="/auth.html?next=${encodeURIComponent(location.pathname)}">
-          Войти
-        </a>
-        <span class="auth-widget__hint">— чтобы сохранять прогресс</span>
+        <div style="display:flex;align-items:center;gap:6px">
+          <a class="auth-widget__login" href="/auth.html?next=${encodeURIComponent(location.pathname)}">Войти</a>
+          <span class="auth-widget__hint">— сохранять прогресс</span>
+        </div>
+        ${themeBtn}
       </div>`;
   }
+  if (typeof updateThemeBtn === 'function') updateThemeBtn();
 }
 
 function escHtmlBasic(s) {
