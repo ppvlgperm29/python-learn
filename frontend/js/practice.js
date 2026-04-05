@@ -6,6 +6,8 @@ let allChallenges = [];
 let currentChallenge = null;
 let cmEditor = null;
 let activeFilter = 'all';
+let activeCategory = 'all';
+let searchQuery = '';
 
 // ── LocalStorage helpers ──────────────────────────────────
 function getSolvedIds() {
@@ -17,6 +19,12 @@ function markChallengesSolved(id) {
   const set = getSolvedIds();
   set.add(id);
   localStorage.setItem('practice_solved', JSON.stringify([...set]));
+  // Track solve history for streak
+  try {
+    const history = JSON.parse(localStorage.getItem('solve_history') || '[]');
+    history.push(new Date().toISOString());
+    localStorage.setItem('solve_history', JSON.stringify(history));
+  } catch {}
   // Sync to server if logged in (non-blocking)
   if (getToken()) API.markChallengeSolved(id).catch(() => {});
 }
@@ -88,10 +96,34 @@ function escHtml(s) {
   return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
+// ── Category filters ──────────────────────────────────────
+function renderCategoryFilters(challenges) {
+  const categories = ['all', ...new Set(challenges.map(c => c.category))].sort((a, b) => a === 'all' ? -1 : a.localeCompare(b));
+  const container = document.getElementById('category-filters');
+  if (!container) return;
+  container.innerHTML = categories.map(cat => `
+    <button class="filter-btn cat-btn${cat === activeCategory ? ' active' : ''}" data-cat="${escHtml(cat)}">
+      ${cat === 'all' ? 'Все категории' : escHtml(cat)}
+    </button>`).join('');
+  container.querySelectorAll('.cat-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      activeCategory = btn.dataset.cat;
+      container.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderList(allChallenges);
+    });
+  });
+}
+
 // ── Challenge List ────────────────────────────────────────
 function renderList(challenges) {
   const solved = getSolvedIds();
-  const visible = activeFilter === 'all' ? challenges : challenges.filter(c => c.difficulty === activeFilter);
+  let visible = activeFilter === 'all' ? challenges : challenges.filter(c => c.difficulty === activeFilter);
+  if (activeCategory !== 'all') visible = visible.filter(c => c.category === activeCategory);
+  if (searchQuery) {
+    const q = searchQuery.toLowerCase();
+    visible = visible.filter(c => c.title.toLowerCase().includes(q) || c.category.toLowerCase().includes(q));
+  }
 
   if (visible.length === 0) {
     document.getElementById('challenge-list').innerHTML =
@@ -298,14 +330,22 @@ function setupButtons() {
 
 // ── Filters ───────────────────────────────────────────────
 function setupFilters() {
-  document.querySelectorAll('.filter-btn').forEach(btn => {
+  document.querySelectorAll('.filter-btn[data-filter]').forEach(btn => {
     btn.addEventListener('click', () => {
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.filter-btn[data-filter]').forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
       activeFilter = btn.dataset.filter;
       renderList(allChallenges);
     });
   });
+
+  const searchInput = document.getElementById('search-input');
+  if (searchInput) {
+    searchInput.addEventListener('input', () => {
+      searchQuery = searchInput.value.trim();
+      renderList(allChallenges);
+    });
+  }
 }
 
 // ── Init ──────────────────────────────────────────────────
@@ -324,6 +364,7 @@ async function init() {
     renderSidebar(topics);
     updateStats(allChallenges);
     updatePracticeBadge();
+    renderCategoryFilters(allChallenges);
     renderList(allChallenges);
 
     // Handle direct link via hash

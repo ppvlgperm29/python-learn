@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Python Learn</title>
+  <title>Статистика — Python Learn</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="/css/animations.css?v=5">
   <link rel="stylesheet" href="/css/main.css?v=5">
   <link rel="stylesheet" href="/css/sidebar.css?v=5">
+  <link rel="stylesheet" href="/css/stats.css?v=5">
 </head>
 <body>
   <div class="mobile-header">
@@ -39,7 +40,7 @@
           <span class="nav-item__title">Практика</span>
           <span class="nav-item__badge nav-item__badge--progress" id="practice-nav-badge"></span>
         </a>
-        <a class="nav-item" href="/stats.html">
+        <a class="nav-item active" href="/stats.html">
           <span class="nav-item__num">📊</span>
           <span class="nav-item__title">Статистика</span>
         </a>
@@ -50,24 +51,17 @@
     </aside>
 
     <main class="main-content">
-      <div class="content-inner">
-      <div class="page-header">
-        <h1 class="page-title">Python Learn</h1>
-        <p class="page-subtitle">Изучайте Python по темам — теория, примеры с объяснениями и практические задачи</p>
-      </div>
-
-      <div id="topics-container">
+      <div class="content-inner" id="stats-container">
         <div class="loading">
           <div class="loading-spinner"></div>
           <div>Загрузка...</div>
         </div>
       </div>
-      </div>
     </main>
   </div>
 
   <script src="/js/api.js?v=5"></script>
-  <script src="/js/index.js?v=5"></script>
+  <script src="/js/stats.js?v=5"></script>
   <script>
     function toggleSidebar() {
       document.querySelector('.sidebar').classList.toggle('open');

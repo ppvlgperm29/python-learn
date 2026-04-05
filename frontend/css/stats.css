@@ -1,0 +1,157 @@
+/* ── Stats cards ──────────────────────────────────────── */
+.stats-cards {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+@media (max-width: 700px) {
+  .stats-cards { grid-template-columns: repeat(2, 1fr); }
+}
+
+.stats-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 16px;
+  text-align: center;
+}
+
+.stats-card--streak {
+  border-color: var(--accent-border);
+  background: var(--accent-bg);
+}
+
+.stats-card__value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1;
+  margin-bottom: 6px;
+}
+
+.stats-card--streak .stats-card__value {
+  color: var(--accent);
+}
+
+.stats-card__label {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+/* ── Sections ─────────────────────────────────────────── */
+.stats-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 20px;
+}
+
+.stats-section__title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 16px;
+}
+
+/* ── Progress bars ────────────────────────────────────── */
+.stats-progress-bar {
+  height: 8px;
+  background: var(--surface-3);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+.stats-progress-bar--sm {
+  height: 5px;
+  margin-bottom: 0;
+}
+
+.stats-progress-bar__fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 4px;
+  transition: width 0.5s ease;
+}
+
+.stats-progress-label {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+}
+
+/* ── By difficulty ────────────────────────────────────── */
+.stats-diff-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 500px) {
+  .stats-diff-grid { grid-template-columns: 1fr; }
+}
+
+.stats-diff-card {
+  background: var(--surface-2);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius-sm);
+  padding: 14px 16px;
+}
+
+.stats-diff-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.stats-diff-card__label {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.stats-diff-card__count {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+}
+
+/* ── By category ──────────────────────────────────────── */
+.stats-cat-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.stats-cat-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.stats-cat-row__name {
+  font-size: 0.85rem;
+  color: var(--text);
+  width: 160px;
+  flex-shrink: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media (max-width: 500px) {
+  .stats-cat-row__name { width: 100px; }
+}
+
+.stats-cat-row__count {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  width: 44px;
+  text-align: right;
+  flex-shrink: 0;
+}

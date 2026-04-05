@@ -11,12 +11,12 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/theme/eclipse.min.css">
 
-  <link rel="stylesheet" href="/css/variables.css?v=4">
-  <link rel="stylesheet" href="/css/animations.css?v=4">
-  <link rel="stylesheet" href="/css/main.css?v=4">
-  <link rel="stylesheet" href="/css/sidebar.css?v=4">
-  <link rel="stylesheet" href="/css/tasks.css?v=4">
-  <link rel="stylesheet" href="/css/practice.css?v=4">
+  <link rel="stylesheet" href="/css/variables.css?v=5">
+  <link rel="stylesheet" href="/css/animations.css?v=5">
+  <link rel="stylesheet" href="/css/main.css?v=5">
+  <link rel="stylesheet" href="/css/sidebar.css?v=5">
+  <link rel="stylesheet" href="/css/tasks.css?v=5">
+  <link rel="stylesheet" href="/css/practice.css?v=5">
 </head>
 <body>
   <div class="mobile-header">
@@ -45,6 +45,10 @@
           <span class="nav-item__title">Практика</span>
           <span class="nav-item__badge nav-item__badge--progress" id="practice-nav-badge"></span>
         </a>
+        <a class="nav-item" href="/stats.html">
+          <span class="nav-item__num">📊</span>
+          <span class="nav-item__title">Статистика</span>
+        </a>
         <div class="sidebar__section-label">Темы</div>
         <div id="sidebar-nav"></div>
       </nav>
@@ -64,6 +68,10 @@
             <button class="filter-btn" data-filter="medium">Средние</button>
             <button class="filter-btn" data-filter="hard">Сложные</button>
           </div>
+          <div class="practice-search">
+            <input type="text" id="search-input" class="search-input" placeholder="Поиск по названию или категории...">
+          </div>
+          <div class="practice-categories" id="category-filters"></div>
         </div>
 
         <div class="practice-stats">
@@ -127,9 +135,9 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/codemirror.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.16/mode/python/python.min.js"></script>
 
-  <script src="/js/api.js?v=4"></script>
-  <script src="/js/pyodide-runner.js?v=4"></script>
-  <script src="/js/practice.js?v=4"></script>
+  <script src="/js/api.js?v=5"></script>
+  <script src="/js/pyodide-runner.js?v=5"></script>
+  <script src="/js/practice.js?v=5"></script>
   <script>
     function toggleSidebar() {
       document.querySelector('.sidebar').classList.toggle('open');

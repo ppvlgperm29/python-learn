@@ -85,6 +85,41 @@
 .filter-btn.active-medium { background: var(--medium); border-color: var(--medium); color: #fff; }
 .filter-btn.active-hard  { background: var(--hard);  border-color: var(--hard);   color: #fff; }
 
+/* ── Search ───────────────────────────────────────────── */
+.practice-search {
+  margin-top: 12px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px 14px;
+  font-size: 0.88rem;
+  font-family: var(--font-ui);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text);
+  outline: none;
+  transition: border-color var(--transition);
+  box-sizing: border-box;
+}
+
+.search-input:focus {
+  border-color: var(--accent);
+}
+
+.search-input::placeholder {
+  color: var(--text-muted);
+}
+
+/* ── Category filters ─────────────────────────────────── */
+.practice-categories {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
 /* ── Stats bar ────────────────────────────────────────── */
 .practice-stats {
   display: flex;
