@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Войти — Python Learn</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/variables.css?v=3">
+  <link rel="stylesheet" href="/css/main.css?v=3">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-ui);
+      background: var(--surface-2);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 16px;
+    }
+    .auth-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 40px 36px;
+      width: 100%;
+      max-width: 400px;
+      box-shadow: var(--shadow-md);
+    }
+    .auth-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text);
+      margin-bottom: 28px;
+    }
+    .auth-logo__icon {
+      width: 36px; height: 36px;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem; font-weight: 700;
+    }
+    .auth-logo__name { font-weight: 700; font-size: 1.1rem; }
+
+    .auth-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 28px;
+    }
+    .auth-tab {
+      flex: 1;
+      padding: 10px;
+      text-align: center;
+      font-size: 0.9rem;
+      font-weight: 500;
+      cursor: pointer;
+      color: var(--text-secondary);
+      border-bottom: 2px solid transparent;
+      margin-bottom: -1px;
+      transition: color 0.15s, border-color 0.15s;
+      background: none;
+      border-top: none;
+      border-left: none;
+      border-right: none;
+      font-family: var(--font-ui);
+    }
+    .auth-tab.active {
+      color: var(--accent);
+      border-bottom-color: var(--accent);
+    }
+
+    .auth-form { display: flex; flex-direction: column; gap: 16px; }
+    .auth-form[hidden] { display: none; }
+
+    .field { display: flex; flex-direction: column; gap: 5px; }
+    .field label { font-size: 0.83rem; font-weight: 500; color: var(--text-secondary); }
+    .field input {
+      padding: 9px 12px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      font-family: var(--font-ui);
+      color: var(--text);
+      background: var(--surface);
+      transition: border-color 0.15s;
+      outline: none;
+    }
+    .field input:focus { border-color: var(--accent); }
+    .field input.error { border-color: var(--error); }
+
+    .btn-submit {
+      padding: 10px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 0.9rem;
+      font-weight: 600;
+      font-family: var(--font-ui);
+      cursor: pointer;
+      transition: background 0.15s;
+      margin-top: 4px;
+    }
+    .btn-submit:hover { background: var(--accent-hover); }
+    .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .auth-error {
+      padding: 10px 12px;
+      background: var(--error-bg);
+      border: 1px solid var(--hard-border);
+      border-radius: var(--radius-sm);
+      font-size: 0.83rem;
+      color: var(--error);
+      display: none;
+    }
+    .auth-error.visible { display: block; }
+
+    .auth-hint {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="auth-card">
+    <a href="/" class="auth-logo">
+      <div class="auth-logo__icon">PY</div>
+      <span class="auth-logo__name">Python Learn</span>
+    </a>
+
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tab-login" onclick="switchTab('login')">Войти</button>
+      <button class="auth-tab" id="tab-register" onclick="switchTab('register')">Регистрация</button>
+    </div>
+
+    <div id="auth-error" class="auth-error"></div>
+
+    <!-- Login -->
+    <form class="auth-form" id="form-login" onsubmit="submitLogin(event)">
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="login-email" placeholder="you@example.com" required autocomplete="email">
+      </div>
+      <div class="field">
+        <label>Пароль</label>
+        <input type="password" id="login-password" placeholder="••••••••" required autocomplete="current-password">
+      </div>
+      <button type="submit" class="btn-submit" id="btn-login">Войти</button>
+      <p class="auth-hint">Нет аккаунта? <a href="#" onclick="switchTab('register')">Зарегистрироваться</a></p>
+    </form>
+
+    <!-- Register -->
+    <form class="auth-form" id="form-register" hidden onsubmit="submitRegister(event)">
+      <div class="field">
+        <label>Имя пользователя</label>
+        <input type="text" id="reg-username" placeholder="python_dev" required autocomplete="username"
+               pattern="[a-zA-Z0-9_]{3,30}" title="3–30 символов: буквы, цифры, _">
+      </div>
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="reg-email" placeholder="you@example.com" required autocomplete="email">
+      </div>
+      <div class="field">
+        <label>Пароль</label>
+        <input type="password" id="reg-password" placeholder="Минимум 8 символов" required
+               minlength="8" autocomplete="new-password">
+      </div>
+      <button type="submit" class="btn-submit" id="btn-register">Создать аккаунт</button>
+      <p class="auth-hint">Уже есть аккаунт? <a href="#" onclick="switchTab('login')">Войти</a></p>
+    </form>
+  </div>
+
+  <script>
+    const API = '/api';
+
+    function switchTab(tab) {
+      document.getElementById('tab-login').classList.toggle('active', tab === 'login');
+      document.getElementById('tab-register').classList.toggle('active', tab === 'register');
+      document.getElementById('form-login').hidden = (tab !== 'login');
+      document.getElementById('form-register').hidden = (tab !== 'register');
+      hideError();
+    }
+
+    function showError(msg) {
+      const el = document.getElementById('auth-error');
+      el.textContent = msg;
+      el.classList.add('visible');
+    }
+
+    function hideError() {
+      document.getElementById('auth-error').classList.remove('visible');
+    }
+
+    async function submitLogin(e) {
+      e.preventDefault();
+      hideError();
+      const btn = document.getElementById('btn-login');
+      btn.disabled = true; btn.textContent = 'Входим...';
+      try {
+        const res = await fetch(`${API}/auth/login`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email: document.getElementById('login-email').value,
+            password: document.getElementById('login-password').value,
+          }),
+        });
+        const data = await res.json();
+        if (!res.ok) { showError(data.detail || 'Ошибка входа'); return; }
+        saveAuth(data);
+        await syncProgress(data.access_token);
+        redirect();
+      } catch { showError('Ошибка сети. Попробуйте позже.'); }
+      finally { btn.disabled = false; btn.textContent = 'Войти'; }
+    }
+
+    async function submitRegister(e) {
+      e.preventDefault();
+      hideError();
+      const btn = document.getElementById('btn-register');
+      btn.disabled = true; btn.textContent = 'Создаём...';
+      try {
+        const res = await fetch(`${API}/auth/register`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            username: document.getElementById('reg-username').value,
+            email: document.getElementById('reg-email').value,
+            password: document.getElementById('reg-password').value,
+          }),
+        });
+        const data = await res.json();
+        if (!res.ok) {
+          const msg = data.detail?.[0]?.msg || data.detail || 'Ошибка регистрации';
+          showError(msg); return;
+        }
+        saveAuth(data);
+        await syncProgress(data.access_token);
+        redirect();
+      } catch { showError('Ошибка сети. Попробуйте позже.'); }
+      finally { btn.disabled = false; btn.textContent = 'Создать аккаунт'; }
+    }
+
+    function saveAuth(data) {
+      localStorage.setItem('auth_token', data.access_token);
+      localStorage.setItem('auth_username', data.username);
+      localStorage.setItem('auth_user_id', data.user_id);
+    }
+
+    async function syncProgress(token) {
+      // Upload localStorage progress to server on first login
+      try {
+        const solved_challenges = JSON.parse(localStorage.getItem('practice_solved') || '[]');
+        const topic_progress = {};
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          if (key && key.startsWith('solved_')) {
+            const slug = key.replace('solved_', '');
+            topic_progress[slug] = JSON.parse(localStorage.getItem(key) || '[]');
+          }
+        }
+        await fetch('/api/progress/sync', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify({ solved_challenges, topic_progress }),
+        });
+      } catch { /* non-critical */ }
+    }
+
+    function redirect() {
+      const next = new URLSearchParams(location.search).get('next') || '/';
+      location.href = next;
+    }
+
+    // Already logged in?
+    if (localStorage.getItem('auth_token')) redirect();
+  </script>
+</body>
+</html>

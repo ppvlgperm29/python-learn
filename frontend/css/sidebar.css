@@ -216,3 +216,45 @@
 
 /* ── Mobile/Tablet ────────────────────────────────────── */
 .sidebar.open { transform: translateX(0); }
+
+/* ── Auth widget ──────────────────────────────────────── */
+.auth-widget {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.auth-widget__name {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.auth-widget__logout {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xs);
+  padding: 2px 7px;
+  cursor: pointer;
+  font-family: var(--font-ui);
+  transition: color var(--transition), border-color var(--transition);
+  flex-shrink: 0;
+}
+
+.auth-widget__logout:hover { color: var(--error); border-color: var(--error); }
+
+.auth-widget__login {
+  font-size: 0.78rem;
+  color: var(--accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.auth-widget__login:hover { text-decoration: underline; }

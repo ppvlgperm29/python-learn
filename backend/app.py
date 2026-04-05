@@ -1,17 +1,28 @@
 import json
 from pathlib import Path
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
+
+from .database import engine
+from .models import Base
+from .routers import auth, challenges, progress
 
 BASE_DIR = Path(__file__).parent
 TOPICS_DIR = BASE_DIR / "data" / "topics"
-CHALLENGES_FILE = BASE_DIR / "data" / "challenges.json"
 FRONTEND_DIR = BASE_DIR.parent / "frontend"
 
 app = FastAPI(title="Python Learn API")
 
+# Create tables if they don't exist yet (Alembic handles migrations in prod)
+Base.metadata.create_all(bind=engine)
 
+app.include_router(auth.router)
+app.include_router(challenges.router)
+app.include_router(progress.router)
+
+
+# ── Topics (still served from JSON) ─────────────────────
 def load_topics_index():
     topics = []
     for path in sorted(TOPICS_DIR.glob("*.json")):
@@ -37,6 +48,9 @@ def load_topic(slug: str):
     return None
 
 
+from fastapi import HTTPException
+
+
 @app.get("/api/topics")
 def get_topics():
     return load_topics_index()
@@ -48,12 +62,6 @@ def get_topic(slug: str):
     if topic is None:
         raise HTTPException(status_code=404, detail="Topic not found")
     return topic
-
-
-@app.get("/api/challenges")
-def get_challenges():
-    with open(CHALLENGES_FILE, encoding="utf-8") as f:
-        return json.load(f)
 
 
 app.mount("/", StaticFiles(directory=str(FRONTEND_DIR), html=True), name="static")

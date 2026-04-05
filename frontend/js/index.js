@@ -70,6 +70,8 @@ function updatePracticeBadge() {
 }
 
 async function init() {
+  renderAuthWidget();
+  await loadServerProgress();
   try {
     const topics = await API.getTopics();
     renderSidebarNav(topics, null);
