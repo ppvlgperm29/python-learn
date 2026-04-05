@@ -169,6 +169,15 @@
   border-color: var(--accent-border);
 }
 
+.theme-toggle--mobile {
+  margin-left: auto;
+  display: none;
+}
+
+@media (max-width: 900px) {
+  .theme-toggle--mobile { display: block; }
+}
+
 /* ── Mobile header ────────────────────────────────────── */
 .mobile-header {
   display: flex;

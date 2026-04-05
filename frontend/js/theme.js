@@ -13,10 +13,13 @@ function toggleTheme() {
 }
 
 function updateThemeBtn() {
-  const btn = document.getElementById('theme-toggle-btn');
-  if (!btn) return;
   const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
-  btn.textContent = isDark ? '☀ Светлая' : '☾ Тёмная';
+  const label = isDark ? '☀' : '☾';
+  const labelFull = isDark ? '☀ Светлая' : '☾ Тёмная';
+  const btn = document.getElementById('theme-toggle-btn');
+  if (btn) btn.textContent = labelFull;
+  const btnMobile = document.getElementById('theme-toggle-mobile');
+  if (btnMobile) btnMobile.textContent = label;
 }
 
 document.addEventListener('DOMContentLoaded', updateThemeBtn);
