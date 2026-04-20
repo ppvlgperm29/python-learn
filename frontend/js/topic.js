@@ -171,6 +171,15 @@ function renderTopic(topic, topics) {
   const solved = getSolvedSet(slug);
 
   document.title = `${topic.title} — Python Learn`;
+  const desc = `Изучите тему «${topic.title}» на Python: теория, примеры кода и практические задачи прямо в браузере.`;
+  const url = `https://learningpython.ru/topic.html?slug=${topic.slug}`;
+  document.querySelector('meta[name="description"]')?.setAttribute('content', desc);
+  document.querySelector('meta[property="og:title"]')?.setAttribute('content', document.title);
+  document.querySelector('meta[property="og:description"]')?.setAttribute('content', desc);
+  document.querySelector('meta[property="og:url"]')?.setAttribute('content', url);
+  let canonical = document.querySelector('link[rel="canonical"]');
+  if (!canonical) { canonical = document.createElement('link'); canonical.rel = 'canonical'; document.head.appendChild(canonical); }
+  canonical.href = url;
 
   const sectionsHtml = topic.sections.map(renderSection).join('');
   const tasksHtml = topic.tasks.map(t => renderTask(t, slug, solved)).join('');

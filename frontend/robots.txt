@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /admin.html
+Disallow: /stats.html
+Disallow: /auth.html
+
+Sitemap: https://learningpython.ru/sitemap.xml
