@@ -98,6 +98,13 @@
   --code-border:    #30363d;
 }
 
+/* ── CodeMirror cursor fix (light theme) ── */
+.CodeMirror-cursor {
+  border-left: 2px solid #1a1d23 !important;
+  border-right: none !important;
+  width: 0 !important;
+}
+
 /* ── CodeMirror dark theme override ── */
 [data-theme="dark"] .CodeMirror {
   background: #161b22;
