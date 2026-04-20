@@ -9,9 +9,16 @@ function getSolvedSet(slug) {
 
 function markSolved(slug, taskId) {
   const set = getSolvedSet(slug);
+  if (set.has(taskId)) return;
   set.add(taskId);
   const tasks = [...set];
   localStorage.setItem(`solved_${slug}`, JSON.stringify(tasks));
+  // Track solve history for streak (same as practice.js)
+  try {
+    const history = JSON.parse(localStorage.getItem('solve_history') || '[]');
+    history.push(new Date().toISOString());
+    localStorage.setItem('solve_history', JSON.stringify(history));
+  } catch {}
   // Sync to server if logged in (non-blocking)
   if (getToken()) API.saveTopicProgress(slug, tasks).catch(() => {});
 }
@@ -165,6 +172,17 @@ function renderTopicNav(topics, slug) {
     </div>`;
 }
 
+function buildDiffSummary(tasks) {
+  const counts = { easy: 0, medium: 0, hard: 0 };
+  tasks.forEach(t => { if (counts[t.difficulty] !== undefined) counts[t.difficulty]++; });
+  const labels = { easy: 'лёгк', medium: 'средн', hard: 'сложн' };
+  const suffix = { easy: ['ая', 'их'], medium: ['яя', 'их'], hard: ['ая', 'их'] };
+  return Object.entries(counts)
+    .filter(([, n]) => n > 0)
+    .map(([d, n]) => `${n} ${labels[d]}${n === 1 ? suffix[d][0] : suffix[d][1]}`)
+    .join(' &nbsp;·&nbsp; ');
+}
+
 // ─── Main render ─────────────────────────────────────────
 function renderTopic(topic, topics) {
   const slug = topic.slug;
@@ -199,7 +217,7 @@ function renderTopic(topic, topics) {
     ${topic.tasks.length > 0 ? `
     <div class="tasks-section">
       <div class="tasks-section__heading">Практика</div>
-      <p class="tasks-section__sub">2 лёгких &nbsp;·&nbsp; 2 средних &nbsp;·&nbsp; 1 сложное</p>
+      <p class="tasks-section__sub">${buildDiffSummary(topic.tasks)}</p>
       ${renderProgress(solved, topic.tasks.length)}
       ${tasksHtml}
     </div>` : ''}

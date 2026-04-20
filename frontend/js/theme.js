@@ -10,6 +10,12 @@ function toggleTheme() {
   document.documentElement.setAttribute('data-theme', next);
   localStorage.setItem('theme', next);
   updateThemeBtn();
+  // Refresh all CodeMirror instances so dark CSS override takes effect
+  if (typeof CodeMirror !== 'undefined') {
+    document.querySelectorAll('.CodeMirror').forEach(el => {
+      if (el.CodeMirror) el.CodeMirror.refresh();
+    });
+  }
 }
 
 function updateThemeBtn() {

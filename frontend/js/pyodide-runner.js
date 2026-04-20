@@ -1,22 +1,45 @@
 const PyodideRunner = (() => {
   let pyodide = null;
   let loading = false;
+  let loadError = null;
   let loadCallbacks = [];
+  let errorCallbacks = [];
 
   async function load() {
     if (pyodide) return pyodide;
+    if (loadError) throw loadError;
     if (loading) {
-      return new Promise(resolve => loadCallbacks.push(resolve));
+      return new Promise((resolve, reject) => {
+        loadCallbacks.push(resolve);
+        errorCallbacks.push(reject);
+      });
     }
     loading = true;
-    pyodide = await loadPyodide();
-    loadCallbacks.forEach(cb => cb(pyodide));
-    loadCallbacks = [];
+    try {
+      pyodide = await loadPyodide();
+      loadCallbacks.forEach(cb => cb(pyodide));
+    } catch (e) {
+      loadError = e;
+      errorCallbacks.forEach(cb => cb(e));
+      throw e;
+    } finally {
+      loadCallbacks = [];
+      errorCallbacks = [];
+    }
     return pyodide;
   }
 
+  function pyodideErrorMessage() {
+    return 'Не удалось загрузить Python-интерпретатор. Проверьте интернет-соединение и перезагрузите страницу.';
+  }
+
   async function run(code) {
-    const py = await load();
+    let py;
+    try {
+      py = await load();
+    } catch {
+      return { stdout: '', stderr: pyodideErrorMessage(), exitCode: 1 };
+    }
     const wrappedCode = `
 import sys
 import io
@@ -45,7 +68,12 @@ sys.stderr = sys.__stderr__
   }
 
   async function runChallenge(userCode, tests) {
-    const py = await load();
+    let py;
+    try {
+      py = await load();
+    } catch {
+      return { error: pyodideErrorMessage() };
+    }
     py.globals.set('_ch_code', userCode);
     py.globals.set('_ch_tests', py.toPy(tests));
     const runner = `
@@ -84,8 +112,8 @@ sys.stderr = sys.__stderr__
     }
   }
 
-  // Pre-load in background
-  load().catch(() => {});
+  // Pre-load in background — show console warning on failure
+  load().catch(e => console.warn('Pyodide failed to load:', e));
 
   return { run, load, runChallenge };
 })();

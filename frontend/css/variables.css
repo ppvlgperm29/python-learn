@@ -97,3 +97,34 @@
   --code-bg:        #0d1117;
   --code-border:    #30363d;
 }
+
+/* ── CodeMirror dark theme override ── */
+[data-theme="dark"] .CodeMirror {
+  background: #161b22;
+  color: #e6edf3;
+}
+[data-theme="dark"] .CodeMirror-cursor {
+  border-left-color: #e6edf3;
+}
+[data-theme="dark"] .CodeMirror-selected {
+  background: #1f4070;
+}
+[data-theme="dark"] .CodeMirror-gutters {
+  background: #0d1117;
+  border-right-color: #30363d;
+}
+[data-theme="dark"] .CodeMirror-linenumber {
+  color: #6e7681;
+}
+[data-theme="dark"] .CodeMirror-activeline-background {
+  background: #1c2128;
+}
+[data-theme="dark"] .cm-keyword   { color: #ff7b72; }
+[data-theme="dark"] .cm-def       { color: #79c0ff; }
+[data-theme="dark"] .cm-variable  { color: #e6edf3; }
+[data-theme="dark"] .cm-string    { color: #a5d6ff; }
+[data-theme="dark"] .cm-number    { color: #79c0ff; }
+[data-theme="dark"] .cm-comment   { color: #6e7681; font-style: italic; }
+[data-theme="dark"] .cm-operator  { color: #ff7b72; }
+[data-theme="dark"] .cm-builtin   { color: #ffa657; }
+[data-theme="dark"] .cm-meta      { color: #ffa657; }
