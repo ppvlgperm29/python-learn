@@ -85,3 +85,16 @@ class TopicProgressRequest(BaseModel):
 class ProgressResponse(BaseModel):
     solved_challenges: list[str]
     topic_progress: dict[str, list[str]]
+
+
+# ── Admin ─────────────────────────────────────────────────
+class LoginLogResponse(BaseModel):
+    id: int
+    user_id: int
+    username: str
+    ip_address: Optional[str]
+    user_agent: Optional[str]
+    logged_at: str
+
+    class Config:
+        from_attributes = True

@@ -402,6 +402,10 @@ function setupFilters() {
 
 // ── Init ──────────────────────────────────────────────────
 async function init() {
+  if (!getToken()) {
+    location.replace('/auth.html?next=' + encodeURIComponent(location.pathname));
+    return;
+  }
   renderAuthWidget();
   await loadServerProgress();
   setupFilters();

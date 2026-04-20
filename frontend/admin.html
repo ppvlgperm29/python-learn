@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Админ — Python Learn</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/variables.css?v=6">
+  <link rel="stylesheet" href="/css/animations.css?v=6">
+  <link rel="stylesheet" href="/css/main.css?v=6">
+  <link rel="stylesheet" href="/css/sidebar.css?v=6">
+  <style>
+    .admin-wrap {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 40px 24px;
+    }
+    .admin-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text-primary);
+    }
+    .admin-sub {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 28px;
+    }
+    .admin-table-wrap {
+      overflow-x: auto;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--bg-card);
+    }
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.875rem;
+    }
+    .admin-table th {
+      text-align: left;
+      padding: 12px 16px;
+      font-weight: 600;
+      color: var(--text-muted);
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-sidebar);
+      white-space: nowrap;
+    }
+    .admin-table td {
+      padding: 11px 16px;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-primary);
+      vertical-align: top;
+    }
+    .admin-table tr:last-child td {
+      border-bottom: none;
+    }
+    .admin-table tr:hover td {
+      background: var(--bg-hover, rgba(0,0,0,0.03));
+    }
+    .ua-cell {
+      max-width: 280px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
+    .admin-error {
+      padding: 40px;
+      text-align: center;
+      color: var(--text-muted);
+    }
+    .admin-count {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+    .username-cell {
+      font-weight: 600;
+    }
+    .ip-cell {
+      font-family: monospace;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="layout" style="display:block">
+    <div class="admin-wrap">
+      <h1 class="admin-title">Панель администратора</h1>
+      <p class="admin-sub">Журнал входов пользователей</p>
+      <div id="admin-count" class="admin-count"></div>
+      <div class="admin-table-wrap">
+        <div id="admin-content">
+          <div class="admin-error">Загрузка...</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/theme.js?v=6"></script>
+  <script src="/js/api.js?v=6"></script>
+  <script>
+    function escH(s) {
+      return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    }
+
+    async function init() {
+      if (!getToken()) {
+        location.replace('/auth.html?next=/admin.html');
+        return;
+      }
+
+      let logs;
+      try {
+        const res = await fetch('/api/admin/logins', {
+          headers: { 'Authorization': 'Bearer ' + getToken() }
+        });
+        if (res.status === 403) {
+          document.getElementById('admin-content').innerHTML =
+            '<div class="admin-error">Нет доступа. Эта страница только для администратора.</div>';
+          return;
+        }
+        if (!res.ok) throw new Error('HTTP ' + res.status);
+        logs = await res.json();
+      } catch (e) {
+        document.getElementById('admin-content').innerHTML =
+          '<div class="admin-error">Не удалось загрузить данные. Убедитесь, что сервер запущен.</div>';
+        return;
+      }
+
+      if (logs.length === 0) {
+        document.getElementById('admin-content').innerHTML =
+          '<div class="admin-error">Входов пока нет.</div>';
+        return;
+      }
+
+      document.getElementById('admin-count').textContent = `Записей: ${logs.length}`;
+      document.getElementById('admin-content').innerHTML = `
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Дата и время</th>
+              <th>Пользователь</th>
+              <th>IP-адрес</th>
+              <th>Браузер / устройство</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${logs.map((log, i) => `
+              <tr>
+                <td style="color:var(--text-muted);font-size:0.8rem">${i + 1}</td>
+                <td style="white-space:nowrap">${escH(log.logged_at)}</td>
+                <td class="username-cell">${escH(log.username)}</td>
+                <td class="ip-cell">${escH(log.ip_address || '—')}</td>
+                <td class="ua-cell" title="${escH(log.user_agent || '')}">${escH(log.user_agent || '—')}</td>
+              </tr>`).join('')}
+          </tbody>
+        </table>`;
+    }
+
+    init();
+  </script>
+</body>
+</html>

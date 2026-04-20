@@ -6,7 +6,7 @@ from fastapi.staticfiles import StaticFiles
 
 from .database import engine
 from .models import Base
-from .routers import auth, challenges, progress
+from .routers import admin, auth, challenges, progress
 
 BASE_DIR = Path(__file__).parent
 TOPICS_DIR = BASE_DIR / "data" / "topics"
@@ -20,6 +20,7 @@ Base.metadata.create_all(bind=engine)
 app.include_router(auth.router)
 app.include_router(challenges.router)
 app.include_router(progress.router)
+app.include_router(admin.router)
 
 
 # ── Topics (still served from JSON) ─────────────────────

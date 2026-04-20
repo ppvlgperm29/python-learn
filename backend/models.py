@@ -71,3 +71,16 @@ class TopicProgress(Base):
     user = relationship("User", back_populates="topic_progress")
 
     __table_args__ = (UniqueConstraint("user_id", "topic_slug"),)
+
+
+class LoginLog(Base):
+    __tablename__ = "login_logs"
+
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
+    username = Column(String(50), nullable=False)
+    ip_address = Column(String(45), nullable=True)
+    user_agent = Column(String(500), nullable=True)
+    logged_at = Column(DateTime, server_default=func.now(), nullable=False)
+
+    user = relationship("User")
