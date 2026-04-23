@@ -23,23 +23,6 @@ function markSolved(slug, taskId) {
   if (getToken()) API.saveTopicProgress(slug, tasks).catch(() => {});
 }
 
-// ─── Sidebar ─────────────────────────────────────────────
-function renderSidebar(topics, activeSlug) {
-  const nav = document.getElementById('sidebar-nav');
-  nav.innerHTML = topics.map((t, i) => {
-    const solved = getSolvedSet(t.slug).size;
-    const total = t.task_count;
-    const done = total > 0 && solved === total;
-    const badge = total === 0 ? '' : done ? '✓' : solved > 0 ? `${solved}/${total}` : `${total}`;
-    const badgeClass = done ? ' nav-item__badge--done' : solved > 0 ? ' nav-item__badge--progress' : '';
-    return `
-      <a class="nav-item${t.slug === activeSlug ? ' active' : ''}" href="/topic.html?slug=${t.slug}">
-        <span class="nav-item__num">${String(i + 1).padStart(2, '0')}</span>
-        <span class="nav-item__title">${t.title}</span>
-        ${badge ? `<span class="nav-item__badge${badgeClass}">${badge}</span>` : ''}
-      </a>`;
-  }).join('');
-}
 
 function refreshSidebarBadge(slug, topics) {
   const solved = getSolvedSet(slug).size;
@@ -235,7 +218,11 @@ function renderTopic(topic, topics) {
       tabSize: 4,
       indentWithTabs: false,
       lineWrapping: false,
-      extraKeys: { Tab: cm => cm.execCommand('insertSoftTab') },
+      extraKeys: {
+        Tab: cm => cm.execCommand('insertSoftTab'),
+        'Ctrl-Enter': () => { const taskId = textarea.id.replace('editor-', ''); runTask(taskId); },
+        'Cmd-Enter': () => { const taskId = textarea.id.replace('editor-', ''); runTask(taskId); },
+      },
     });
     cm.setSize('100%', null);
     const taskId = textarea.id.replace('editor-', '');

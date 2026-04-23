@@ -32,24 +32,6 @@ function getStreak() {
   } catch { return 0; }
 }
 
-// ── Sidebar ───────────────────────────────────────────────
-function renderSidebar(topics) {
-  const nav = document.getElementById('sidebar-nav');
-  if (!nav) return;
-  nav.innerHTML = topics.map((t, i) => {
-    const solved = getSolvedTopicIds(t.slug).size;
-    const total = t.task_count;
-    const done = total > 0 && solved === total;
-    const badge = total === 0 ? '' : done ? '✓' : solved > 0 ? `${solved}/${total}` : `${total}`;
-    const badgeClass = done ? ' nav-item__badge--done' : solved > 0 ? ' nav-item__badge--progress' : '';
-    return `
-      <a class="nav-item" href="/topic.html?slug=${t.slug}">
-        <span class="nav-item__num">${String(i + 1).padStart(2, '0')}</span>
-        <span class="nav-item__title">${escHtml(t.title)}</span>
-        ${badge ? `<span class="nav-item__badge${badgeClass}">${badge}</span>` : ''}
-      </a>`;
-  }).join('');
-}
 
 // ── Render ────────────────────────────────────────────────
 function render(challenges, topics) {
