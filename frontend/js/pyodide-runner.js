@@ -1,9 +1,21 @@
 const PyodideRunner = (() => {
+  const PYODIDE_CDN = 'https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js';
   let pyodide = null;
   let loading = false;
   let loadError = null;
   let loadCallbacks = [];
   let errorCallbacks = [];
+
+  function injectScript(src) {
+    return new Promise((resolve, reject) => {
+      if (window.loadPyodide) { resolve(); return; }
+      const s = document.createElement('script');
+      s.src = src;
+      s.onload = resolve;
+      s.onerror = () => reject(new Error('Failed to load ' + src));
+      document.head.appendChild(s);
+    });
+  }
 
   async function load() {
     if (pyodide) return pyodide;
@@ -16,6 +28,7 @@ const PyodideRunner = (() => {
     }
     loading = true;
     try {
+      await injectScript(PYODIDE_CDN);
       pyodide = await loadPyodide();
       loadCallbacks.forEach(cb => cb(pyodide));
     } catch (e) {

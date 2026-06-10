@@ -1,8 +1,8 @@
 from fastapi import APIRouter, Depends
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 
 from ..database import get_db
-from ..models import Challenge
+from ..models import Challenge, TestCase
 from ..schemas import ChallengeSchema, TestCaseSchema
 
 router = APIRouter(prefix="/api/challenges", tags=["challenges"])
@@ -29,7 +29,12 @@ def _serialize(c: Challenge) -> dict:
 
 @router.get("")
 def get_challenges(db: Session = Depends(get_db)):
-    challenges = db.query(Challenge).order_by(Challenge.order).all()
+    challenges = (
+        db.query(Challenge)
+        .options(joinedload(Challenge.test_cases))
+        .order_by(Challenge.order)
+        .all()
+    )
     return [_serialize(c) for c in challenges]
 
 
