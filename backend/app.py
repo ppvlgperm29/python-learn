@@ -3,7 +3,7 @@ import time
 from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
-from fastapi.middleware.gzip import GZIPMiddleware
+from fastapi.middleware.gzip import GZipMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 
@@ -16,7 +16,7 @@ TOPICS_DIR = BASE_DIR / "data" / "topics"
 FRONTEND_DIR = BASE_DIR.parent / "frontend"
 
 app = FastAPI(title="Python Learn API")
-app.add_middleware(GZIPMiddleware, minimum_size=1000)
+app.add_middleware(GZipMiddleware, minimum_size=1000)
 
 # Create tables if they don't exist yet (Alembic handles migrations in prod)
 Base.metadata.create_all(bind=engine)
