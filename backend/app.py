@@ -4,7 +4,7 @@ from pathlib import Path
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.gzip import GZipMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 
 from .database import engine
@@ -71,6 +71,12 @@ def load_topic(slug: str):
             _topic_by_slug[slug] = (data, now)
             return data
     return None
+
+
+@app.get("/en")
+@app.get("/en/")
+def redirect_en():
+    return RedirectResponse(url="/", status_code=301)
 
 
 _CACHE_HEADER = {"Cache-Control": "public, max-age=3600"}
